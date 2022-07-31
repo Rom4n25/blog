@@ -1,0 +1,43 @@
+package pl.romanek.blog.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.romanek.blog.entities.Comment;
+import pl.romanek.blog.entities.Post;
+import pl.romanek.blog.entities.User;
+import pl.romanek.blog.repository.CommentRepository;
+
+@Service
+public class CommentService {
+
+    private final CommentRepository commentRepository;
+    private final UserService userService;
+    private final PostService postService;
+
+    @Autowired
+    public CommentService(CommentRepository commentRepository, UserService userService, PostService postService) {
+        this.commentRepository = commentRepository;
+        this.userService = userService;
+        this.postService = postService;
+    }
+
+    public List<Comment> findAllComments() {
+        return commentRepository.findAll();
+    }
+
+    public void addComment(Comment comment, Integer userId, Integer postId) {
+        User user = userService.findUserById(userId);
+        Post post = postService.findPostById(postId);
+        comment.setPost(post);
+        comment.setUser(user);
+        commentRepository.save(comment);
+    }
+
+    public List<Comment> findAllCommentsInPost(Integer postId) {
+
+        return commentRepository.getAllCommentsByPostId(postId);
+    }
+}

@@ -1,0 +1,42 @@
+package pl.romanek.blog.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.romanek.blog.entities.Post;
+import pl.romanek.blog.entities.User;
+import pl.romanek.blog.repository.PostRepository;
+
+@Service
+public class PostService {
+
+    private final PostRepository postRepository;
+    private final UserService userService;
+
+    @Autowired
+    public PostService(PostRepository postRepository, UserService userService) {
+        this.postRepository = postRepository;
+        this.userService = userService;
+    }
+
+    public List<Post> findAllPosts() {
+        return postRepository.findAll();
+    }
+
+    public void addPost(Post post, Integer userId) {
+        User user = userService.findUserById(userId);
+        post.setUser(user);
+        postRepository.save(post);
+    }
+
+    public List<Post> findAllPostsByUserId(Integer id) {
+        return postRepository.findAllPostsByUserId(id);
+    }
+
+    public Post findPostById(Integer id) {
+        return postRepository.findById(id).get();
+    }
+
+}
