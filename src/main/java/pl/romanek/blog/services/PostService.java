@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pl.romanek.blog.entities.Post;
 import pl.romanek.blog.entities.User;
@@ -25,6 +26,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    @Transactional
     public void addPost(Post post, Integer userId) {
         User user = userService.findUserById(userId);
         post.setUser(user);

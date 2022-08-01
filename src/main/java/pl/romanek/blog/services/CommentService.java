@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pl.romanek.blog.entities.Comment;
 import pl.romanek.blog.entities.Post;
@@ -28,6 +29,7 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
+    @Transactional
     public void addComment(Comment comment, Integer userId, Integer postId) {
         User user = userService.findUserById(userId);
         Post post = postService.findPostById(postId);
