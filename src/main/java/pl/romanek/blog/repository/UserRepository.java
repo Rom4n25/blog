@@ -14,5 +14,5 @@ public interface UserRepository {
 
     User save(User user);
 
-    void delete(Integer id);
+    void deleteById(Integer id);
 }
