@@ -37,7 +37,6 @@ public class CommentService {
     }
 
     public List<Comment> findAllCommentsInPost(Integer postId) {
-
         return commentRepository.findAllByPostId(postId);
     }
 }
