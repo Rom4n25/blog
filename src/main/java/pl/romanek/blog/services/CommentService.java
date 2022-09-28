@@ -1,11 +1,9 @@
 package pl.romanek.blog.services;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pl.romanek.blog.entities.Comment;
 import pl.romanek.blog.entities.Post;
 import pl.romanek.blog.entities.User;
@@ -40,6 +38,6 @@ public class CommentService {
 
     public List<Comment> findAllCommentsInPost(Integer postId) {
 
-        return commentRepository.getAllCommentsByPostId(postId);
+        return commentRepository.findAllByPostId(postId);
     }
 }
