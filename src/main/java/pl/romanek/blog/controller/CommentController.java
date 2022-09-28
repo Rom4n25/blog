@@ -1,4 +1,4 @@
-package pl.romanek.blog.controllers;
+package pl.romanek.blog.controller;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.romanek.blog.entities.Comment;
-import pl.romanek.blog.services.CommentService;
+
+import pl.romanek.blog.entity.Comment;
+import pl.romanek.blog.service.CommentService;
 
 @RestController
 @RequestMapping("/comments")

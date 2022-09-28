@@ -2,7 +2,8 @@ package pl.romanek.blog.repository;
 
 import java.util.List;
 import org.springframework.stereotype.Repository;
-import pl.romanek.blog.entities.Comment;
+
+import pl.romanek.blog.entity.Comment;
 
 @Repository
 public interface CommentRepository {

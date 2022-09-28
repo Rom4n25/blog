@@ -1,4 +1,4 @@
-package pl.romanek.blog.controllers;
+package pl.romanek.blog.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.romanek.blog.entities.Post;
-import pl.romanek.blog.services.PostService;
+
+import pl.romanek.blog.entity.Post;
+import pl.romanek.blog.service.PostService;
 
 @RestController
 @RequestMapping("/posts")

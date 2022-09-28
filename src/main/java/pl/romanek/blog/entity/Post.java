@@ -1,4 +1,4 @@
-package pl.romanek.blog.entities;
+package pl.romanek.blog.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

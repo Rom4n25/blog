@@ -1,9 +1,10 @@
-package pl.romanek.blog.services;
+package pl.romanek.blog.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.romanek.blog.entities.User;
+
+import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.UserRepository;
 
 @Service
