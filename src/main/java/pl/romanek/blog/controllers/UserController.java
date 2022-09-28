@@ -4,13 +4,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.romanek.blog.entities.User;
 import pl.romanek.blog.services.UserService;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -20,23 +22,23 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/user")
-    public User getUser(@RequestParam("id") Integer id) {
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable("id") Integer id) {
         return userService.findUserById(id);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/add")
     public void addUser(User user) {
         userService.addUser(user);
     }
 
-    @DeleteMapping("/user")
-    public void deleteUser(@RequestParam("id") Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable("id") Integer id) {
         userService.deleteUser(id);
     }
 }
