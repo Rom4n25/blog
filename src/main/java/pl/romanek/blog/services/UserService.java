@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.romanek.blog.entities.User;
 import pl.romanek.blog.repository.UserRepository;
 
@@ -22,12 +21,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    @Transactional
     public void addUser(User user) {
         userRepository.save(user);
     }
 
-    @Transactional
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }

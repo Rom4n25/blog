@@ -11,7 +11,7 @@ public class AppConfig {
 
     @Bean
     DataSource datasource() {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+        DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.url("jdbc:mysql://localhost:3306/blog");
         dataSourceBuilder.username("root");
         dataSourceBuilder.password("password");
