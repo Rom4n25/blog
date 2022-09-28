@@ -30,7 +30,7 @@ public class CommentService {
 
     @Transactional
     public void addComment(Comment comment, Integer userId, Integer postId) {
-        User user = userService.findUserById(userId);
+        User user = userService.findUserById(userId).get();
         Post post = postService.findPostById(postId);
         comment.setPost(post);
         comment.setUser(user);

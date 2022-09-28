@@ -27,7 +27,7 @@ public class PostService {
 
     @Transactional
     public void addPost(Post post, Integer id) {
-        User user = userService.findUserById(id);
+        User user = userService.findUserById(id).get();
         post.setUser(user);
         postRepository.save(post);
     }
