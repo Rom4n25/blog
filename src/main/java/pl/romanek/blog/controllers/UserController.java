@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/user")
     public void addUser(User user) {
-        userService.addUser(user);
+        userService.saveUser(user);
     }
 
     @DeleteMapping("/user")

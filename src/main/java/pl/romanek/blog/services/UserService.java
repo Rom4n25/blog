@@ -1,7 +1,6 @@
 package pl.romanek.blog.services;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.romanek.blog.entities.User;
@@ -21,16 +20,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user) {
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
     public void deleteUser(Integer id) {
-        userRepository.deleteById(id);
+        userRepository.delete(id);
     }
 
     public User findUserById(Integer id) {
-
         return userRepository.findById(id).get();
     }
 }

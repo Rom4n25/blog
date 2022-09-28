@@ -1,11 +1,18 @@
 package pl.romanek.blog.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
-
 import pl.romanek.blog.entities.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository {
 
+    Optional<User> findById(Integer id);
+
+    List<User> findAll();
+
+    User save(User user);
+
+    void delete(Integer id);
 }
