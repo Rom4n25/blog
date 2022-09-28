@@ -1,17 +1,18 @@
 package pl.romanek.blog.controllers;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.romanek.blog.entities.Post;
 import pl.romanek.blog.services.PostService;
 
 @RestController
+@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
@@ -21,18 +22,18 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/all")
     public List<Post> getAllPosts() {
         return postService.findAllPosts();
     }
 
-    @GetMapping("/posts/user")
-    public List<Post> getAllPostByUserId(@RequestParam("id") Integer id) {
+    @GetMapping("/user/{id}")
+    public List<Post> getAllPostByUserId(@PathVariable("id") Integer id) {
         return postService.findAllPostsByUserId(id);
     }
 
-    @PostMapping("/post")
-    public void addPost(@RequestBody Post post, @RequestParam("userId") Integer userId) {
+    @PostMapping("/add/{userId}")
+    public void addPost(@RequestBody Post post, @PathVariable("userId") Integer userId) {
         postService.addPost(post, userId);
     }
 }
