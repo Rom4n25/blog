@@ -3,7 +3,6 @@ package pl.romanek.blog.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,13 +39,13 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<User> addUser(User user) {
+    public ResponseEntity<Void> addUser(User user) {
         userService.addUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<User> deleteUserById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id) {
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
             userService.deleteUserById(id);
@@ -56,7 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/name/{username}")
-    public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
+    public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String username) {
         Optional<User> user = userService.findUserByUsername(username);
         if (user.isPresent()) {
             userService.deleteUserByUsername(username);
