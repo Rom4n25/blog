@@ -1,12 +1,13 @@
 package pl.romanek.blog.repository.springdatajpa;
 
 import java.util.List;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.repository.PostRepository;
 
+@Profile("spring-data-jpa")
 public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, PostRepository {
 
     // Queries not needed - only for educational purpose
