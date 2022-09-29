@@ -28,7 +28,7 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    @Transactional
+    // @Transactional
     public void addComment(Comment comment, Integer userId, Integer postId) {
         User user = userService.findUserById(userId).get();
         Post post = postService.findPostById(postId);

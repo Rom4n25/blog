@@ -46,10 +46,20 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") Integer id) {
+    public ResponseEntity<User> deleteUserById(@PathVariable("id") Integer id) {
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
-            userService.deleteUser(id);
+            userService.deleteUserById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/delete/name/{username}")
+    public ResponseEntity<User> deleteUserByUsername(@PathVariable("username") String username) {
+        Optional<User> user = userService.findUserByUsername(username);
+        if (user.isPresent()) {
+            userService.deleteUserByUsername(username);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
