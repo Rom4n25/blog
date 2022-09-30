@@ -40,7 +40,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Post findPostById(Integer id) {
-        return postRepository.findById(id).get();
+    public Optional<Post> findPostById(Integer id) {
+        return postRepository.findById(id);
     }
 }

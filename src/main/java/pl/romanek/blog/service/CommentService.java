@@ -31,7 +31,7 @@ public class CommentService {
     @Transactional
     public void addComment(Comment comment, Integer userId, Integer postId) {
         User user = userService.findUserById(userId).get();
-        Post post = postService.findPostById(postId);
+        Post post = postService.findPostById(postId).get();
         comment.setPost(post);
         comment.setUser(user);
         commentRepository.save(comment);
