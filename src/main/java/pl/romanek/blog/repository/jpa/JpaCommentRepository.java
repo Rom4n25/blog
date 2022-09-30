@@ -30,5 +30,4 @@ public class JpaCommentRepository implements CommentRepository {
         em.persist(comment);
         return comment;
     }
-
 }
