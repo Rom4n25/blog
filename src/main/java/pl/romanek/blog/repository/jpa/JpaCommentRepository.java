@@ -4,10 +4,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 import pl.romanek.blog.entity.Comment;
 import pl.romanek.blog.repository.CommentRepository;
 
 @Profile("jpa")
+@Repository
 public class JpaCommentRepository implements CommentRepository {
 
     @PersistenceContext

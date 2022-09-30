@@ -2,11 +2,8 @@ package pl.romanek.blog.repository;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Repository;
-
 import pl.romanek.blog.entity.Post;
 
-@Repository
 public interface PostRepository {
 
     Post save(Post post);

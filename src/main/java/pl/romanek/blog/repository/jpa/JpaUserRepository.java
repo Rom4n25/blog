@@ -5,10 +5,12 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.UserRepository;
 
 @Profile("jpa")
+@Repository
 public class JpaUserRepository implements UserRepository {
 
     @PersistenceContext
