@@ -21,11 +21,11 @@ public class PostService {
         this.userService = userService;
     }
 
+    @Transactional(readOnly = true)
     public List<Post> findAllPosts() {
         return postRepository.findAll();
     }
 
-    @Transactional
     public void addPost(Post post, Integer id) {
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
@@ -34,10 +34,12 @@ public class PostService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Post> findAllPostsByUserId(Integer id) {
         return postRepository.findAllByUserId(id);
     }
 
+    @Transactional(readOnly = true)
     public Post findPostById(Integer id) {
         return postRepository.findById(id).get();
     }

@@ -23,6 +23,7 @@ public class CommentService {
         this.postService = postService;
     }
 
+    @Transactional(readOnly = true)
     public List<Comment> findAllComments() {
         return commentRepository.findAll();
     }
@@ -36,6 +37,7 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    @Transactional(readOnly = true)
     public List<Comment> findAllCommentsInPost(Integer postId) {
         return commentRepository.findAllByPostId(postId);
     }

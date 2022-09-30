@@ -18,6 +18,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
@@ -30,15 +31,16 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    @Transactional
     public void deleteUserByUsername(String username) {
         userRepository.deleteByUsername(username);
     }
 
+    @Transactional(readOnly = true)
     public Optional<User> findUserById(Integer id) {
         return userRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
