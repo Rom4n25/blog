@@ -7,5 +7,4 @@ import pl.romanek.blog.repository.CommentRepository;
 
 @Profile("spring-data-jpa")
 public interface SpringDataCommentRepository extends JpaRepository<Comment, Integer>, CommentRepository {
-
 }

@@ -39,5 +39,4 @@ public class JpaPostRepository implements PostRepository {
         Post post = em.find(Post.class, id);
         return Optional.ofNullable(post);
     }
-
 }

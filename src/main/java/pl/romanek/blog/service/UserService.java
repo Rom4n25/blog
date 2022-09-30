@@ -2,11 +2,9 @@ package pl.romanek.blog.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.UserRepository;
 
