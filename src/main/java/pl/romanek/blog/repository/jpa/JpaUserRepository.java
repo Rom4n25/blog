@@ -19,7 +19,7 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public Optional<User> findById(Integer id) {
         User user = em.find(User.class, id);
-        return user == null ? Optional.empty() : Optional.of(user);
+        return Optional.ofNullable(user);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class JpaUserRepository implements UserRepository {
         User user = (User) em.createQuery("SELECT user FROM User user WHERE user.username=" + username)
                 .getSingleResult();
 
-        return user == null ? Optional.empty() : Optional.of(user);
+        return Optional.ofNullable(user);
     }
 
     @SuppressWarnings("unchecked")

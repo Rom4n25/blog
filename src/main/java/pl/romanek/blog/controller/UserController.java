@@ -35,7 +35,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") Integer id) {
         Optional<User> user = userService.findUserById(id);
-        return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
+        return ResponseEntity.of(user);
     }
 
     @PostMapping("/add")
