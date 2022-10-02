@@ -2,6 +2,8 @@ package pl.romanek.blog.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,12 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable("id") Integer id) {
+        Optional<Post> post = postService.findPostById(id);
+        return ResponseEntity.of(post);
     }
 
     @PostMapping("/add/{userId}")
