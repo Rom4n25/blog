@@ -25,7 +25,7 @@ public class JpaPostRepository implements PostRepository {
     @SuppressWarnings("unchecked")
     @Override
     public List<Post> findAll() {
-        return em.createQuery("SELECT post FROM Post post").getResultList();
+        return em.createQuery("SELECT post FROM Post post JOIN FETCH post.user user").getResultList();
     }
 
     @SuppressWarnings("unchecked")
