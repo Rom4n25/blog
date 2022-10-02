@@ -31,7 +31,8 @@ public class JpaPostRepository implements PostRepository {
     @SuppressWarnings("unchecked")
     @Override
     public List<Post> findAllByUserId(Integer id) {
-        return em.createQuery("SELECT post FROM Post post WHERE post.user.id=" + id).getResultList();
+        return em.createQuery("SELECT post FROM Post post JOIN FETCH post.user user WHERE post.user.id=" + id)
+                .getResultList();
     }
 
     @Override
