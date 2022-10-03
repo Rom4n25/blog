@@ -7,8 +7,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Post {
 
     @Id
@@ -22,36 +26,4 @@ public class Post {
     @JsonIgnore
     @OneToMany(mappedBy = "post")
     private Set<Comment> comment;
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setComment(Set<Comment> comment) {
-        this.comment = comment;
-    }
-
-    public Set<Comment> getComment() {
-        return this.comment;
-    }
 }
