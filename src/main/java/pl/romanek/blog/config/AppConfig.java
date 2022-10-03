@@ -1,7 +1,6 @@
 package pl.romanek.blog.config;
 
 import javax.sql.DataSource;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -25,5 +24,4 @@ public class AppConfig {
     ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
 }

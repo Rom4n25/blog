@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import pl.romanek.blog.dto.UserDto;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.service.UserService;
