@@ -25,13 +25,16 @@ public class JpaPostRepository implements PostRepository {
     @SuppressWarnings("unchecked")
     @Override
     public List<Post> findAll() {
-        return em.createQuery("SELECT post FROM Post post JOIN FETCH post.user user").getResultList();
+        return em.createQuery("SELECT post FROM Post post JOIN FETCH post.user user JOIN FETCH post.comment comment")
+                .getResultList();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<Post> findAllByUserId(Integer id) {
-        return em.createQuery("SELECT post FROM Post post JOIN FETCH post.user user WHERE post.user.id=" + id)
+        return em.createQuery(
+                "SELECT post FROM Post post JOIN FETCH post.user user JOIN FETCH post.comment comment WHERE post.user.id="
+                        + id)
                 .getResultList();
     }
 

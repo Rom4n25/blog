@@ -1,9 +1,14 @@
 package pl.romanek.blog.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Post {
@@ -15,6 +20,10 @@ public class Post {
     @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post")
+    private Set<Comment> comment;
 
     public int getId() {
         return this.id;
@@ -40,4 +49,11 @@ public class Post {
         this.user = user;
     }
 
+    public void setComment(Set<Comment> comment) {
+        this.comment = comment;
+    }
+
+    public Set<Comment> getComment() {
+        return this.comment;
+    }
 }
