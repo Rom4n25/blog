@@ -1,7 +1,6 @@
 package pl.romanek.blog.config;
 
 import javax.sql.DataSource;
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +17,5 @@ public class AppConfig {
         dataSourceBuilder.driverClassName("com.mysql.cj.jdbc.Driver");
 
         return dataSourceBuilder.build();
-    }
-
-    @Bean
-    ModelMapper modelMapper() {
-        return new ModelMapper();
     }
 }

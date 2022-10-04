@@ -1,10 +1,8 @@
 package pl.romanek.blog.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.romanek.blog.dto.UserDto;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.mapper.UserMapper;
 import pl.romanek.blog.service.UserService;
 
 @RestController
@@ -23,29 +22,29 @@ import pl.romanek.blog.service.UserService;
 public class UserController {
 
     private final UserService userService;
-    private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
-        this.modelMapper = modelMapper;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<User> users = new ArrayList<>(userService.findAllUsers());
-        return users.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(convertToDto(users));
+        return users.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(userMapper.toUsersDto(users));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Integer id) {
         Optional<User> user = userService.findUserById(id);
-        return ResponseEntity.of(Optional.ofNullable(convertToDto(user.get())));
+        return ResponseEntity.of(Optional.ofNullable(userMapper.toUserDto(user.get())));
     }
 
     @PostMapping("/add")
     public ResponseEntity<Void> addUser(UserDto userDto) {
-        userService.addUser(convertToEntity(userDto));
+        userService.addUser(userMapper.toUserEntity(userDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -67,22 +66,5 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    public UserDto convertToDto(User user) {
-        return this.modelMapper.map(user, UserDto.class);
-    }
-
-    public User convertToEntity(UserDto userDto) {
-        return this.modelMapper.map(userDto, User.class);
-    }
-
-    public List<UserDto> convertToDto(List<User> user) {
-        return Arrays.asList(this.modelMapper.map(user, UserDto[].class));
-
-    }
-
-    public List<User> convertToEntity(List<UserDto> userDto) {
-        return Arrays.asList(this.modelMapper.map(userDto, User[].class));
     }
 }
