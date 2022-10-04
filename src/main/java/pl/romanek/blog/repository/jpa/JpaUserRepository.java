@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import pl.romanek.blog.entity.User;
@@ -24,9 +25,9 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findByUsername(String username) {
-        User user = (User) em.createQuery("SELECT user FROM User user WHERE user.username=" + username)
-                .getSingleResult();
-
+        Query query = em.createQuery("SELECT user FROM User user WHERE user.username=:username");
+        query.setParameter("username", username);
+        User user = (User) query.getSingleResult();
         return Optional.ofNullable(user);
     }
 
@@ -49,6 +50,8 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public void deleteByUsername(String username) {
-        em.createQuery("DELETE FROM User user WHERE user.username=" + username).executeUpdate();
+        Query query = em.createQuery("DELETE FROM User user WHERE user.username=:username");
+        query.setParameter("username", username);
+        query.executeUpdate();
     }
 }

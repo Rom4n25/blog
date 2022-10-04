@@ -27,10 +27,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
     }
 
+    @Transactional
     public void deleteUserByUsername(String username) {
         userRepository.deleteByUsername(username);
     }
