@@ -10,6 +10,7 @@ import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.CommentRepository;
 
 @Service
+@Transactional
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -28,7 +29,6 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    @Transactional
     public void addComment(Comment comment, Integer userId, Integer postId) {
         User user = userService.findUserById(userId).get();
         Post post = postService.findPostById(postId).get();

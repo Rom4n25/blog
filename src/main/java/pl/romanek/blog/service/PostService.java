@@ -10,6 +10,7 @@ import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.PostRepository;
 
 @Service
+@Transactional
 public class PostService {
 
     private final PostRepository postRepository;

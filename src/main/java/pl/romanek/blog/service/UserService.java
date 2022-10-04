@@ -9,6 +9,7 @@ import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.UserRepository;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -27,12 +28,10 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
     public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
     }
 
-    @Transactional
     public void deleteUserByUsername(String username) {
         userRepository.deleteByUsername(username);
     }
