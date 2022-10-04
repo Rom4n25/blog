@@ -25,7 +25,9 @@ public class JpaPostRepository implements PostRepository {
     @SuppressWarnings("unchecked")
     @Override
     public List<Post> findAll() {
-        return em.createQuery("SELECT post FROM Post post JOIN FETCH post.user user JOIN FETCH post.comment comment")
+        return em
+                .createQuery(
+                        "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment")
                 .getResultList();
     }
 
@@ -33,7 +35,7 @@ public class JpaPostRepository implements PostRepository {
     @Override
     public List<Post> findAllByUserId(Integer id) {
         return em.createQuery(
-                "SELECT post FROM Post post JOIN FETCH post.user user JOIN FETCH post.comment comment WHERE post.user.id="
+                "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment WHERE post.user.id="
                         + id)
                 .getResultList();
     }
