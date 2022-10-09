@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.romanek.blog.dto.UserDto;
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addUser(UserDto userDto) {
+    public ResponseEntity<Void> addUser(@RequestBody UserDto userDto) {
         userService.addUser(userMapper.toUserEntity(userDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

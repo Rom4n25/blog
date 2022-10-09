@@ -2,26 +2,25 @@ package pl.romanek.blog.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.UserRepository;
 import pl.romanek.blog.security.SecurityUser;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public List<User> findAllUsers() {
@@ -29,6 +28,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
