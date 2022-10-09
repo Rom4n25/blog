@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.repository.RoleRepository;
 import pl.romanek.blog.repository.UserRepository;
 import pl.romanek.blog.security.SecurityUser;
 
@@ -20,6 +20,7 @@ import pl.romanek.blog.security.SecurityUser;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
@@ -29,6 +30,7 @@ public class UserService implements UserDetailsService {
 
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        roleRepository.save(user.getRole());
         userRepository.save(user);
     }
 
