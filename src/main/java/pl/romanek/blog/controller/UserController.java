@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.romanek.blog.dto.UserDto;
+import pl.romanek.blog.dto.UserRequestDto;
+import pl.romanek.blog.dto.UserResponseDto;
 import pl.romanek.blog.entity.User;
-import pl.romanek.blog.mapper.UserMapper;
+import pl.romanek.blog.mapper.UserRequestMapper;
+import pl.romanek.blog.mapper.UserResponseMapper;
 import pl.romanek.blog.service.UserService;
 
 @RestController
@@ -23,29 +25,33 @@ import pl.romanek.blog.service.UserService;
 public class UserController {
 
     private final UserService userService;
-    private final UserMapper userMapper;
+    private final UserRequestMapper userRequestMapper;
+    private final UserResponseMapper userResponseMapper;
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService, UserRequestMapper userRequestMapper,
+            UserResponseMapper userResponseMapper) {
         this.userService = userService;
-        this.userMapper = userMapper;
+        this.userRequestMapper = userRequestMapper;
+        this.userResponseMapper = userResponseMapper;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         List<User> users = new ArrayList<>(userService.findAllUsers());
-        return users.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(userMapper.toUsersDto(users));
+        return users.isEmpty() ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(userResponseMapper.toUsersResponseDto(users));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("id") Integer id) {
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable("id") Integer id) {
         Optional<User> user = userService.findUserById(id);
-        return ResponseEntity.of(Optional.ofNullable(userMapper.toUserDto(user.get())));
+        return ResponseEntity.of(Optional.ofNullable(userResponseMapper.toUserResponseDto(user.get())));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addUser(@RequestBody UserDto userDto) {
-        userService.addUser(userMapper.toUserEntity(userDto));
+    public ResponseEntity<Void> addUser(@RequestBody UserRequestDto userDto) {
+        userService.addUser(userRequestMapper.toUserEntity(userDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
