@@ -9,9 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
+import pl.romanek.blog.entity.Role;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.RoleRepository;
 import pl.romanek.blog.repository.UserRepository;
+import pl.romanek.blog.security.RoleName;
 import pl.romanek.blog.security.SecurityUser;
 
 @Service
@@ -30,6 +32,7 @@ public class UserService implements UserDetailsService {
 
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(new Role(RoleName.USER));
         roleRepository.save(user.getRole());
         userRepository.save(user);
     }
