@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.romanek.blog.dto.CommentDto;
 import pl.romanek.blog.entity.Comment;
 import pl.romanek.blog.mapper.CommentMapper;
+import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.CommentService;
 
 @RestController
@@ -45,11 +47,12 @@ public class CommentController {
         return ResponseEntity.ok(commentMapper.toCommentsDto(comments));
     }
 
-    @PostMapping("/add/{userId}/{postId}")
-    public ResponseEntity<Void> addComment(@RequestBody CommentDto commentDto, @PathVariable("userId") Integer userId,
+    @PostMapping("/add/{postId}")
+    public ResponseEntity<Void> addComment(@RequestBody CommentDto commentDto,
+            @AuthenticationPrincipal SecurityUser securityUser,
             @PathVariable("postId") Integer postId) {
 
-        commentService.addComment(commentMapper.toCommentEntity(commentDto), userId, postId);
+        commentService.addComment(commentMapper.toCommentEntity(commentDto), securityUser.getId(), postId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

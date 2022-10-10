@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.romanek.blog.dto.PostDto;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.mapper.PostMapper;
+import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.PostService;
 
 @RestController
@@ -55,9 +57,10 @@ public class PostController {
         return ResponseEntity.of(Optional.ofNullable(postMapper.toPostDto(post.get())));
     }
 
-    @PostMapping("/add/{userId}")
-    public ResponseEntity<Void> addPost(@RequestBody PostDto postDto, @PathVariable("userId") Integer userId) {
-        postService.addPost(postMapper.toPostEntity(postDto), userId);
+    @PostMapping("/add")
+    public ResponseEntity<Void> addPost(@RequestBody PostDto postDto,
+            @AuthenticationPrincipal SecurityUser securityUser) {
+        postService.addPost(postMapper.toPostEntity(postDto), securityUser.getId());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
