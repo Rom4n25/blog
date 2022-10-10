@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import pl.romanek.blog.dto.UserResponseDto;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.mapper.UserRequestMapper;
 import pl.romanek.blog.mapper.UserResponseMapper;
+import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.UserService;
 
 @RestController
@@ -56,20 +58,23 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id,
+            @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
-            userService.deleteUserById(id);
+            userService.deleteUserById(id, securityUser);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/delete/name/{username}")
-    public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String username) {
+    public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String username,
+            @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<User> user = userService.findUserByUsername(username);
+        Integer userId = user.get().getId();
         if (user.isPresent()) {
-            userService.deleteUserByUsername(username);
+            userService.deleteUserByUsername(username, userId, securityUser);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

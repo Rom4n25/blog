@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.romanek.blog.security.RoleName;
 
@@ -17,6 +18,7 @@ import pl.romanek.blog.security.RoleName;
 @Getter
 @Setter
 @Table(name = "roles")
+@NoArgsConstructor
 public class Role implements GrantedAuthority {
 
     @Id
@@ -33,6 +35,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return getRoleName().toString();
+        return "ROLE_" + getRoleName().toString();
     }
 }

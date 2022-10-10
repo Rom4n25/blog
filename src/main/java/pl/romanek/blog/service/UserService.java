@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.Role;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.exception.UnauthorizedOperationException;
 import pl.romanek.blog.repository.RoleRepository;
 import pl.romanek.blog.repository.UserRepository;
 import pl.romanek.blog.security.RoleName;
@@ -37,12 +38,19 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void deleteUserById(Integer id) {
-        userRepository.deleteById(id);
+    public void deleteUserById(Integer id, SecurityUser securityUser) {
+        if (id.equals(securityUser.getId()) || securityUser.getAuthorities().contains(new Role(RoleName.ADMIN))) {
+            userRepository.deleteById(id);
+        } else {
+            throw new UnauthorizedOperationException();
+        }
     }
 
-    public void deleteUserByUsername(String username) {
-        userRepository.deleteByUsername(username);
+    public void deleteUserByUsername(String username, Integer userId, SecurityUser securityUser) {
+        if (userId.equals(securityUser.getId()) || securityUser.getAuthorities().contains(new Role(RoleName.ADMIN))) {
+            userRepository.deleteByUsername(username);
+        }
+        throw new UnauthorizedOperationException();
     }
 
     @Transactional(readOnly = true)

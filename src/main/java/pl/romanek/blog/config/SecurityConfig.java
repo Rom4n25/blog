@@ -16,6 +16,9 @@ public class SecurityConfig {
                 .antMatchers("/users/add").permitAll()
                 .and()
                 .authorizeRequests()
+                .antMatchers("**/delete/**").hasRole("ADMIN")
+                .and()
+                .authorizeRequests()
                 .anyRequest()
                 .authenticated()
                 .and().build();
