@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiParam;
 import pl.romanek.blog.dto.UserRequestDto;
 import pl.romanek.blog.dto.UserResponseDto;
 import pl.romanek.blog.entity.User;
@@ -21,6 +22,7 @@ import pl.romanek.blog.mapper.UserRequestMapper;
 import pl.romanek.blog.mapper.UserResponseMapper;
 import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.UserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/users")
@@ -48,7 +50,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable("id") Integer id) {
         Optional<User> user = userService.findUserById(id);
-        return ResponseEntity.of(Optional.ofNullable(userResponseMapper.toUserResponseDto(user.get())));
+        return ResponseEntity.of(Optional.ofNullable(userResponseMapper.toUserResponseDto(user.orElse(null))));
     }
 
     @PostMapping("/add")
@@ -59,7 +61,7 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id,
-            @AuthenticationPrincipal SecurityUser securityUser) {
+            @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
             userService.deleteUserById(id, securityUser);
@@ -70,7 +72,7 @@ public class UserController {
 
     @DeleteMapping("/delete/name/{username}")
     public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String username,
-            @AuthenticationPrincipal SecurityUser securityUser) {
+            @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<User> user = userService.findUserByUsername(username);
         Integer userId = user.get().getId();
         if (user.isPresent()) {
