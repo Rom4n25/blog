@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import io.swagger.annotations.ApiParam;
 import pl.romanek.blog.dto.UserRequestDto;
 import pl.romanek.blog.dto.UserResponseDto;
 import pl.romanek.blog.entity.User;
@@ -74,8 +73,8 @@ public class UserController {
     public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String username,
             @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<User> user = userService.findUserByUsername(username);
-        Integer userId = user.get().getId();
         if (user.isPresent()) {
+            Integer userId = user.get().getId();
             userService.deleteUserByUsername(username, userId, securityUser);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
