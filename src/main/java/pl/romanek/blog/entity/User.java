@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ public class User {
     private String username;
     private String password;
 
+    @JsonIgnore
     @JoinColumn(name = "role_id")
     @OneToOne(cascade = CascadeType.ALL)
     private Role role;
