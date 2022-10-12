@@ -51,8 +51,9 @@ public class UserService implements UserDetailsService {
         if (userId.equals(securityUser.getId())
                 || securityUser.getAuthorities().stream().anyMatch(s -> s.getAuthority().equals("ROLE_ADMIN"))) {
             userRepository.deleteByUsername(username);
+        } else {
+            throw new UnauthorizedOperationException();
         }
-        throw new UnauthorizedOperationException();
     }
 
     @Transactional(readOnly = true)
