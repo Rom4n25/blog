@@ -11,48 +11,49 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.romanek.blog.dto.CommentDto;
+
+import lombok.AllArgsConstructor;
+import pl.romanek.blog.dto.CommentRequestDto;
+import pl.romanek.blog.dto.CommentResponseDto;
 import pl.romanek.blog.entity.Comment;
-import pl.romanek.blog.mapper.CommentMapper;
+import pl.romanek.blog.mapper.CommentRequestMapper;
+import pl.romanek.blog.mapper.CommentResponseMapper;
 import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.CommentService;
 
 @RestController
 @RequestMapping("/comments")
+@AllArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
-    private final CommentMapper commentMapper;
-
-    public CommentController(CommentService commentService, CommentMapper commentMapper) {
-        this.commentService = commentService;
-        this.commentMapper = commentMapper;
-    }
+    private final CommentRequestMapper commentRequestMapper;
+    private final CommentResponseMapper commentResponseMapper;
 
     @GetMapping("/all")
-    public ResponseEntity<List<CommentDto>> getAllComments() {
+    public ResponseEntity<List<CommentResponseDto>> getAllComments() {
         List<Comment> comments = new ArrayList<>(commentService.findAllComments());
         if (comments.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(commentMapper.toCommentsDto(comments));
+        return ResponseEntity.ok(commentResponseMapper.toCommentsResponseDto(comments));
     }
 
     @GetMapping("/post/{id}")
-    public ResponseEntity<List<CommentDto>> getAllCommentsInPost(@PathVariable("id") Integer id) {
+    public ResponseEntity<List<CommentResponseDto>> getAllCommentsInPost(@PathVariable("id") Integer id) {
         List<Comment> comments = new ArrayList<>(commentService.findAllCommentsInPost(id));
         if (comments.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(commentMapper.toCommentsDto(comments));
+        return ResponseEntity.ok(commentResponseMapper.toCommentsResponseDto(comments));
     }
 
     @PostMapping("/add/{postId}")
-    public ResponseEntity<Void> addComment(@RequestBody CommentDto commentDto,
+    public ResponseEntity<Void> addComment(@RequestBody CommentRequestDto commentDto,
             @AuthenticationPrincipal SecurityUser securityUser,
             @PathVariable("postId") Integer postId) {
 
-        commentService.addComment(commentMapper.toCommentEntity(commentDto), securityUser.getId(), postId);
+        commentService.addComment(commentRequestMapper.toCommentEntity(commentDto), securityUser.getId(), postId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
