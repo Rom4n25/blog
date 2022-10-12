@@ -2,7 +2,6 @@ package pl.romanek.blog.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 import pl.romanek.blog.dto.PostRequestDto;
 import pl.romanek.blog.entity.Post;
 

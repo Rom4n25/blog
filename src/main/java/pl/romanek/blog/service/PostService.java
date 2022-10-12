@@ -2,25 +2,20 @@ package pl.romanek.blog.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.repository.PostRepository;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
-
-    @Autowired
-    public PostService(PostRepository postRepository, UserService userService) {
-        this.postRepository = postRepository;
-        this.userService = userService;
-    }
 
     @Transactional(readOnly = true)
     public List<Post> findAllPosts() {

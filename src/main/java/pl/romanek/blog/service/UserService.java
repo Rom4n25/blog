@@ -39,7 +39,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUserById(Integer id, SecurityUser securityUser) {
-        if (id.equals(securityUser.getId()) || securityUser.getAuthorities().contains(new Role(RoleName.ADMIN))) {
+        if (id.equals(securityUser.getId())
+                || securityUser.getAuthorities().stream().anyMatch(s -> s.getAuthority().equals("ROLE_ADMIN"))) {
             userRepository.deleteById(id);
         } else {
             throw new UnauthorizedOperationException();
@@ -47,7 +48,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUserByUsername(String username, Integer userId, SecurityUser securityUser) {
-        if (userId.equals(securityUser.getId()) || securityUser.getAuthorities().contains(new Role(RoleName.ADMIN))) {
+        if (userId.equals(securityUser.getId())
+                || securityUser.getAuthorities().stream().anyMatch(s -> s.getAuthority().equals("ROLE_ADMIN"))) {
             userRepository.deleteByUsername(username);
         }
         throw new UnauthorizedOperationException();

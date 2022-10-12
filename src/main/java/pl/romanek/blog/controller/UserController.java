@@ -3,7 +3,6 @@ package pl.romanek.blog.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
 import pl.romanek.blog.dto.UserRequestDto;
 import pl.romanek.blog.dto.UserResponseDto;
 import pl.romanek.blog.entity.User;
@@ -21,23 +21,15 @@ import pl.romanek.blog.mapper.UserRequestMapper;
 import pl.romanek.blog.mapper.UserResponseMapper;
 import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.UserService;
-import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final UserRequestMapper userRequestMapper;
     private final UserResponseMapper userResponseMapper;
-
-    @Autowired
-    public UserController(UserService userService, UserRequestMapper userRequestMapper,
-            UserResponseMapper userResponseMapper) {
-        this.userService = userService;
-        this.userRequestMapper = userRequestMapper;
-        this.userResponseMapper = userResponseMapper;
-    }
 
     @GetMapping("/all")
     public ResponseEntity<List<UserResponseDto>> getAllUsers() {
@@ -60,7 +52,7 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id,
-            @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+            @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
             userService.deleteUserById(id, securityUser);
@@ -71,7 +63,7 @@ public class UserController {
 
     @DeleteMapping("/delete/name/{username}")
     public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String username,
-            @ApiIgnore @AuthenticationPrincipal SecurityUser securityUser) {
+            @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<User> user = userService.findUserByUsername(username);
         if (user.isPresent()) {
             Integer userId = user.get().getId();
