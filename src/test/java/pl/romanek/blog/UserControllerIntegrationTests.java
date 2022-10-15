@@ -140,14 +140,9 @@ public class UserControllerIntegrationTests {
         }
 
         @Test
-        public void shouldNotAddUserIfUsernameExists() throws Exception {
-
-                MockMvcBuilders.standaloneSetup(userService).setControllerAdvice(new ExceptionControllerAdvice())
-                                .build();
+        public void shouldNotAddUserWithEmptyData() throws Exception {
 
                 UserRequestDto userRequestDto = new UserRequestDto();
-                userRequestDto.setUsername("");
-                userRequestDto.setPassword("");
 
                 String userRequestDtoAsJson = objectMapper.writeValueAsString(userRequestDto);
 
@@ -155,7 +150,7 @@ public class UserControllerIntegrationTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(userRequestDtoAsJson))
                                 .andDo(print())
-                                .andExpect(status().isConflict());
+                                .andExpect(status().isBadRequest());
 
         }
 }

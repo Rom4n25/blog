@@ -3,6 +3,7 @@ package pl.romanek.blog.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addUser(@RequestBody UserRequestDto userDto) {
+    public ResponseEntity<Void> addUser(@Valid @RequestBody UserRequestDto userDto) {
         userService.addUser(userRequestMapper.toUserEntity(userDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
