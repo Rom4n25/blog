@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.Role;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.exception.UnauthorizedOperationException;
+import pl.romanek.blog.exception.UsernameExistsException;
 import pl.romanek.blog.repository.RoleRepository;
 import pl.romanek.blog.repository.UserRepository;
 import pl.romanek.blog.security.RoleName;
@@ -32,6 +33,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser(User user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new UsernameExistsException();
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(new Role(RoleName.USER));
         roleRepository.save(user.getRole());
