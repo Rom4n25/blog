@@ -3,6 +3,7 @@ package pl.romanek.blog;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -18,11 +19,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import pl.romanek.blog.advice.ExceptionControllerAdvice;
 import pl.romanek.blog.config.SecurityConfig;
 import pl.romanek.blog.controller.UserController;
 import pl.romanek.blog.dto.UserRequestDto;
@@ -151,6 +148,25 @@ public class UserControllerIntegrationTests {
                                 .content(userRequestDtoAsJson))
                                 .andDo(print())
                                 .andExpect(status().isBadRequest());
+        }
 
+        @WithMockUser(roles = "ADMIN")
+        @Test
+        public void shouldAdminDeleteUserById() throws Exception {
+
+                when(userService.findUserById(1)).thenReturn(Optional.of(users.get(0)));
+
+                mockMvc.perform(delete("/users/delete/1"))
+                                .andExpect(status().isNoContent());
+        }
+
+        @WithMockUser(roles = "ADMIN")
+        @Test
+        public void shouldNotDeleteUserByIdWhenNotExists() throws Exception {
+
+                when(userService.findUserById(1)).thenReturn(Optional.empty());
+
+                mockMvc.perform(delete("/users/delete/1"))
+                                .andExpect(status().isNotFound());
         }
 }
