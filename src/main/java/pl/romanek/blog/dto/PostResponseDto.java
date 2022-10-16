@@ -11,5 +11,5 @@ public class PostResponseDto {
     private int id;
     private String text;
     private UserResponseDto user;
-    private Set<CommentRequestDto> comment;
+    private Set<CommentResponseDto> comment;
 }
