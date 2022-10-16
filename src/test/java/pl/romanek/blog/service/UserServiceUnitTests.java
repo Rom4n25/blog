@@ -18,10 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.romanek.blog.entity.Role;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.exception.UnauthorizedOperationException;
 import pl.romanek.blog.exception.UsernameExistsException;
 import pl.romanek.blog.repository.RoleRepository;
 import pl.romanek.blog.repository.UserRepository;
 import pl.romanek.blog.security.RoleName;
+import pl.romanek.blog.security.SecurityUser;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceUnitTests {
@@ -34,6 +36,9 @@ public class UserServiceUnitTests {
 
     @Mock
     RoleRepository roleRepository;
+
+    @Mock
+    SecurityUser securityUser;
 
     @InjectMocks
     UserService userService;
@@ -91,5 +96,24 @@ public class UserServiceUnitTests {
     public void shouldGetUserByUsername() {
         when(userRepository.findByUsername("Bill")).thenReturn(Optional.of(users.get(0)));
         assertEquals(Optional.of(users.get(0)), userService.findUserByUsername("Bill"));
+    }
+
+    @Test
+    public void shouldGetEmptyOptionalWhenUserNotFoundByUsername() {
+        when(userRepository.findByUsername("Bill")).thenReturn(Optional.empty());
+        assertEquals(userService.findUserByUsername("Bill"), Optional.empty());
+    }
+
+    @Test
+    public void shouldUserDeleteHimselfById() {
+        when(securityUser.getId()).thenReturn(1);
+        userService.deleteUserById(1, securityUser);
+        verify(userRepository).deleteById(1);
+    }
+
+    @Test
+    public void shouldNotDeleteUser() {
+        when(securityUser.getId()).thenReturn(2);
+        assertThrows(UnauthorizedOperationException.class, () -> userService.deleteUserById(1, securityUser));
     }
 }
