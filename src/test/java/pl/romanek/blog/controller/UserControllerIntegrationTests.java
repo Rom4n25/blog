@@ -1,4 +1,4 @@
-package pl.romanek.blog;
+package pl.romanek.blog.controller;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,7 +21,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pl.romanek.blog.config.SecurityConfig;
-import pl.romanek.blog.controller.UserController;
 import pl.romanek.blog.dto.UserRequestDto;
 import pl.romanek.blog.dto.UserResponseDto;
 import pl.romanek.blog.entity.Role;
