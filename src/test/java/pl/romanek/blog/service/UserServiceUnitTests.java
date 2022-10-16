@@ -48,7 +48,7 @@ public class UserServiceUnitTests {
 
     @BeforeEach
     public void initUsers() {
-        User user = new User();
+        User user = User.builder().build();
         users = new ArrayList<User>();
         users.add(user);
     }

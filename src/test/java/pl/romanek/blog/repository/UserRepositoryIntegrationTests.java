@@ -20,11 +20,12 @@ public class UserRepositoryIntegrationTests {
     @BeforeEach
     public void addUser() {
 
-        User user = new User();
-        user.setId(1);
-        user.setUsername("Bill");
-        user.setPassword("password");
-        user.setRole(new Role(RoleName.USER));
+        User user = User.builder()
+                .id(1)
+                .username("Bill")
+                .password("password")
+                .role(new Role(RoleName.USER))
+                .build();
 
         springDataUserRepository.save(user);
     }

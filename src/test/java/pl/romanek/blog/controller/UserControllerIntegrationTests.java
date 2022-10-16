@@ -53,17 +53,20 @@ public class UserControllerIntegrationTests {
 
         @BeforeEach
         public void initUsers() {
-                User user1 = new User();
-                user1.setId(1);
-                user1.setUsername("Bill");
-                user1.setPassword("password");
-                user1.setRole(new Role(RoleName.USER));
 
-                User user2 = new User();
-                user2.setId(2);
-                user2.setUsername("Steve");
-                user2.setPassword("secret");
-                user2.setRole(new Role(RoleName.USER));
+                User user1 = User.builder()
+                                .id(1)
+                                .username("Bill")
+                                .password("password")
+                                .role(new Role(RoleName.USER))
+                                .build();
+
+                User user2 = User.builder()
+                                .id(1)
+                                .username("Steve")
+                                .password("secret")
+                                .role(new Role(RoleName.USER))
+                                .build();
 
                 users = new ArrayList<User>(List.of(user1, user2));
         }
