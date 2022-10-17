@@ -20,6 +20,7 @@ import pl.romanek.blog.mapper.CommentResponseMapper;
 import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.CommentService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/comments")
 @AllArgsConstructor

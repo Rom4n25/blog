@@ -6,13 +6,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import lombok.AllArgsConstructor;
+import pl.romanek.blog.security.filter.JwtFilter;
 
 @Configuration
+@AllArgsConstructor
 public class SecurityConfig {
+
+    JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.httpBasic().and().csrf().disable().authorizeRequests()
+        return http.httpBasic()
+                .and().cors()
+                .and()
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/users/add").permitAll()
                 .and()
                 .authorizeRequests()
