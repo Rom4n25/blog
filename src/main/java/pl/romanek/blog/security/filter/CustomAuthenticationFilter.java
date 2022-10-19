@@ -3,6 +3,7 @@ package pl.romanek.blog.security.filter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.stream.Collectors;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,8 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
                         user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
-        response.setHeader("accessToken", accessToken);
+        Cookie cookie = new Cookie("accessToken", accessToken);
+        response.addCookie(cookie);
+        // response.setHeader("accessToken", accessToken);
     }
 }
