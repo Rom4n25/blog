@@ -21,6 +21,7 @@ public class SecurityConfig {
 
     AuthenticationConfiguration authConfig;
     JwtAuthorizationFilter jwtFilter;
+    CustomAuthenticationFilter customAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -28,7 +29,7 @@ public class SecurityConfig {
         return http.httpBasic().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(new CustomAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class)
+                .addFilterAt(customAuthenticationFilter, BasicAuthenticationFilter.class)
                 .cors()
                 .and()
                 .csrf().disable()

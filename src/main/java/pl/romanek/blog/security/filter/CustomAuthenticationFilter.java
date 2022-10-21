@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,9 +20,10 @@ import pl.romanek.blog.security.SecurityUser;
 @Component
 public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
 
-    AuthenticationManager authenticationManager;
+    @Value("${jwt.secret}")
+    String secret;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public CustomAuthenticationFilter(@Lazy AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
@@ -28,7 +31,8 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
     protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException {
         SecurityUser user = (SecurityUser) authentication.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        System.out.println(secret);
+        Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
@@ -39,6 +43,5 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
 
         Cookie cookie = new Cookie("accessToken", accessToken);
         response.addCookie(cookie);
-        // response.setHeader("accessToken", accessToken);
     }
 }
