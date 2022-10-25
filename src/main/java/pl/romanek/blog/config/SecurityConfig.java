@@ -26,12 +26,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        return http.httpBasic().and()
+        return http.cors().and().httpBasic().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(customAuthenticationFilter, BasicAuthenticationFilter.class)
-                .cors()
-                .and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/users/add").permitAll()

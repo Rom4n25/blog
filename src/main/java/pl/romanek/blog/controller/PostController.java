@@ -22,7 +22,7 @@ import pl.romanek.blog.mapper.PostRequestMapper;
 import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.PostService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/posts")
 @AllArgsConstructor
