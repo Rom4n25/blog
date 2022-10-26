@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +19,6 @@ import pl.romanek.blog.dto.PostResponseDto;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.mapper.PostResponseMapper;
 import pl.romanek.blog.mapper.PostRequestMapper;
-import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.PostService;
 
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -58,8 +57,10 @@ public class PostController {
 
     @PostMapping("/add")
     public ResponseEntity<Void> addPost(@RequestBody PostRequestDto postRequestDto,
-            @AuthenticationPrincipal SecurityUser securityUser) {
-        postService.addPost(postRequestMapper.toPostEntity(postRequestDto), securityUser.getId());
+            Authentication authentication) {
+        Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
+        postService.addPost(postRequestMapper.toPostEntity(postRequestDto),
+                userId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

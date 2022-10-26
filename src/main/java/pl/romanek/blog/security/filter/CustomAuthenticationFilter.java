@@ -35,7 +35,7 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
                 System.out.println(secret);
                 Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
                 String accessToken = JWT.create()
-                                .withSubject(user.getUsername())
+                                .withSubject(String.valueOf(user.getId()))
                                 .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                                 .withIssuer(request.getRequestURL().toString())
                                 .withClaim("roles",

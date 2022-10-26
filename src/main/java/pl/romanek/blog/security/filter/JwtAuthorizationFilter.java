@@ -40,12 +40,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decodedJWT = verifier.verify(token);
-            String username = decodedJWT.getSubject();
+            String id = decodedJWT.getSubject();
             String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
             List<GrantedAuthority> authorities = Arrays.stream(roles).map(role -> new SimpleGrantedAuthority(role))
                     .collect(Collectors.toList());
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null,
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(id, null,
                     authorities);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
