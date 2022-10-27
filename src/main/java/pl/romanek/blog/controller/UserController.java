@@ -3,8 +3,11 @@ package pl.romanek.blog.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -74,5 +77,17 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logOut(HttpServletResponse response) {
+        ResponseCookie cookie = userService.logout();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<Void> logIn() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

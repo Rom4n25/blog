@@ -2,6 +2,8 @@ package pl.romanek.blog.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -75,5 +77,14 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> u = userRepository.findByUsername(username);
         return u.map(SecurityUser::new).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+    }
+
+    public ResponseCookie logout() {
+        ResponseCookie cookie = ResponseCookie.from("accessToken", "")
+                .maxAge(0)
+                .httpOnly(true)
+                .path("/")
+                .secure(true).build();
+        return cookie;
     }
 }
