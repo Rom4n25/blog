@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,6 @@ import pl.romanek.blog.dto.CommentResponseDto;
 import pl.romanek.blog.entity.Comment;
 import pl.romanek.blog.mapper.CommentRequestMapper;
 import pl.romanek.blog.mapper.CommentResponseMapper;
-import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.CommentService;
 
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -51,10 +50,10 @@ public class CommentController {
 
     @PostMapping("/add/{postId}")
     public ResponseEntity<Void> addComment(@RequestBody CommentRequestDto commentDto,
-            @AuthenticationPrincipal SecurityUser securityUser,
+            Authentication authentication,
             @PathVariable("postId") Integer postId) {
-
-        commentService.addComment(commentRequestMapper.toCommentEntity(commentDto), securityUser.getId(), postId);
+        Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
+        commentService.addComment(commentRequestMapper.toCommentEntity(commentDto), userId, postId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
