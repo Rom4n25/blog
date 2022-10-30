@@ -12,7 +12,7 @@ public interface PostRepository {
 
     Post save(Post post);
 
-    Page<Post> findAll(Pageable pageable);
+    Page<Post> findAllByOrderByCreatedDesc(Pageable pageable);
 
     List<Post> findAllByUserId(Integer id);
 

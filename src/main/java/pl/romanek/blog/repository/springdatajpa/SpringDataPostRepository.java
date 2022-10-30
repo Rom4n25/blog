@@ -23,7 +23,7 @@ public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, 
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })
-    Page<Post> findAll(Pageable pageable);
+    Page<Post> findAllByOrderByCreatedDesc(Pageable pageable);
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })

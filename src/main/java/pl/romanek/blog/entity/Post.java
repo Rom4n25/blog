@@ -1,6 +1,9 @@
 package pl.romanek.blog.entity;
 
+import java.time.LocalDateTime;
 import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -18,6 +21,11 @@ public class Post {
     @Id
     private int id;
     private String text;
+
+    private LocalDateTime created;
+
+    @Column(name = "last_modified")
+    private LocalDateTime lastModified;
 
     @JoinColumn(name = "user_id")
     @ManyToOne

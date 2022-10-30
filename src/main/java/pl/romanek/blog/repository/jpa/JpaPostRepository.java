@@ -27,10 +27,11 @@ public class JpaPostRepository implements PostRepository {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Page<Post> findAll(Pageable page) {
+    public Page<Post> findAllByOrderByCreatedDesc(Pageable page) {
         return new PageImpl<>(em
                 .createQuery(
-                        "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment")
+                        "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment ORDER BY post.created DESC")
+                .setFirstResult(page.getPageNumber() * 10).setMaxResults(10)
                 .getResultList());
     }
 

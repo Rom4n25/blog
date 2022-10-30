@@ -1,8 +1,8 @@
 package pl.romanek.blog.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,14 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<Post> findAllPosts(Integer page) {
-        return postRepository.findAll(PageRequest.of(page, 10));
+        return postRepository.findAllByOrderByCreatedDesc(PageRequest.of(page, 10));
     }
 
     public void addPost(Post post, Integer id) {
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
             post.setUser(user.get());
+            post.setCreated(LocalDateTime.now());
             postRepository.save(post);
         }
     }
