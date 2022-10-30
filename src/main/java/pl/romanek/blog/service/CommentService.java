@@ -1,5 +1,6 @@
 package pl.romanek.blog.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +29,12 @@ public class CommentService {
         Post post = postService.findPostById(postId).get();
         comment.setPost(post);
         comment.setUser(user);
+        comment.setCreated(LocalDateTime.now());
         commentRepository.save(comment);
     }
 
     @Transactional(readOnly = true)
     public List<Comment> findAllCommentsInPost(Integer postId) {
-        return commentRepository.findAllByPostId(postId);
+        return commentRepository.findAllByPostIdOrderByCreatedAsc(postId);
     }
 }

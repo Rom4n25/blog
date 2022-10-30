@@ -17,10 +17,10 @@ public class JpaCommentRepository implements CommentRepository {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Comment> findAllByPostId(Integer id) {
+    public List<Comment> findAllByPostIdOrderByCreatedAsc(Integer id) {
         return em.createQuery(
                 "SELECT comment FROM Comment comment JOIN FETCH comment.user user JOIN FETCH comment.post post WHERE comment.post.id="
-                        + id)
+                        + id + "ORDER BY comment.created ASC")
                 .getResultList();
     }
 

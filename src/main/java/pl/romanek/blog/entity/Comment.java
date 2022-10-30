@@ -1,5 +1,8 @@
 package pl.romanek.blog.entity;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,6 +19,10 @@ public class Comment {
     @Id
     private int id;
     private String text;
+    private LocalDateTime created;
+
+    @Column(name = "last_modified")
+    private LocalDateTime lastModified;
 
     @JsonIgnore // To avoid Jackson recursive serialization
     @ManyToOne

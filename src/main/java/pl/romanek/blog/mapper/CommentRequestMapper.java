@@ -11,5 +11,7 @@ public interface CommentRequestMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "post", ignore = true)
+    @Mapping(target = "created", ignore = true)
+    @Mapping(target = "lastModified", ignore = true)
     Comment toCommentEntity(CommentRequestDto commentRequestDto);
 }

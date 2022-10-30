@@ -13,7 +13,7 @@ public interface SpringDataCommentRepository extends JpaRepository<Comment, Inte
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "post" })
-    List<Comment> findAllByPostId(Integer id);
+    List<Comment> findAllByPostIdOrderByCreatedAsc(Integer id);
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "post" })

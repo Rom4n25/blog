@@ -5,7 +5,7 @@ import pl.romanek.blog.entity.Comment;
 
 public interface CommentRepository {
 
-    List<Comment> findAllByPostId(Integer id);
+    List<Comment> findAllByPostIdOrderByCreatedAsc(Integer id);
 
     List<Comment> findAll();
 
