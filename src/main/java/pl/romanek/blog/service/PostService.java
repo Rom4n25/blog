@@ -2,6 +2,9 @@ package pl.romanek.blog.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -18,8 +21,8 @@ public class PostService {
     private final UserService userService;
 
     @Transactional(readOnly = true)
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
+    public Page<Post> findAllPosts(Integer page) {
+        return postRepository.findAll(PageRequest.of(page, 10));
     }
 
     public void addPost(Post post, Integer id) {

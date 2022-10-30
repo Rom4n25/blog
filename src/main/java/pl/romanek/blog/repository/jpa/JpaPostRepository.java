@@ -5,6 +5,9 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.repository.PostRepository;
@@ -24,11 +27,11 @@ public class JpaPostRepository implements PostRepository {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Post> findAll() {
-        return em
+    public Page<Post> findAll(Pageable page) {
+        return new PageImpl<>(em
                 .createQuery(
                         "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment")
-                .getResultList();
+                .getResultList());
     }
 
     @SuppressWarnings("unchecked")

@@ -3,6 +3,8 @@ package pl.romanek.blog.repository.springdatajpa;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
@@ -21,7 +23,7 @@ public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, 
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })
-    List<Post> findAll();
+    Page<Post> findAll(Pageable pageable);
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })

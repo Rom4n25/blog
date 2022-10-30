@@ -31,9 +31,9 @@ public class PostController {
     private final PostRequestMapper postRequestMapper;
     private final PostResponseMapper postResponseMapper;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
-        List<Post> posts = new ArrayList<>(postService.findAllPosts());
+    @GetMapping("/all/{page}")
+    public ResponseEntity<List<PostResponseDto>> getAllPosts(@PathVariable("page") Integer page) {
+        List<Post> posts = new ArrayList<>(postService.findAllPosts(page).toList());
         if (posts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
