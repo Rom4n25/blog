@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +33,7 @@ public class Post {
     @ManyToOne
     private User user;
 
+    @OrderBy("created")
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     private Set<Comment> comment;
 }
