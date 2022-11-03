@@ -32,11 +32,10 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
         protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                         Authentication authentication) throws IOException {
                 SecurityUser user = (SecurityUser) authentication.getPrincipal();
-                System.out.println(secret);
                 Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
                 String accessToken = JWT.create()
                                 .withSubject(String.valueOf(user.getId()))
-                                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
+                                .withExpiresAt(new Date(System.currentTimeMillis() + 365 * 24 * 60 * 60 * 1000))
                                 .withIssuer(request.getRequestURL().toString())
                                 .withClaim("roles",
                                                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
