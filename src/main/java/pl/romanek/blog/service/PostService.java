@@ -1,7 +1,6 @@
 package pl.romanek.blog.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,8 +34,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<Post> findAllPostsByUserId(Integer id) {
-        return postRepository.findAllByUserId(id);
+    public Page<Post> findAllPostsByUserId(Integer id, Integer page) {
+        return postRepository.findAllByUserId(id, PageRequest.of(page, 10));
     }
 
     @Transactional(readOnly = true)

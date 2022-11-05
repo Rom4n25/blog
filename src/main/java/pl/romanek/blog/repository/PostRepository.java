@@ -1,11 +1,8 @@
 package pl.romanek.blog.repository;
 
-import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import pl.romanek.blog.entity.Post;
 
 public interface PostRepository {
@@ -14,7 +11,7 @@ public interface PostRepository {
 
     Page<Post> findAllByOrderByCreatedDesc(Pageable pageable);
 
-    List<Post> findAllByUserId(Integer id);
+    Page<Post> findAllByUserId(Integer id, Pageable pageable);
 
     Optional<Post> findById(Integer id);
 }

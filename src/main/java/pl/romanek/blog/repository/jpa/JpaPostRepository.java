@@ -1,6 +1,5 @@
 package pl.romanek.blog.repository.jpa;
 
-import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,11 +36,12 @@ public class JpaPostRepository implements PostRepository {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Post> findAllByUserId(Integer id) {
-        return em.createQuery(
+    public Page<Post> findAllByUserId(Integer id, Pageable page) {
+        return new PageImpl<>(em.createQuery(
                 "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment WHERE post.user.id="
                         + id)
-                .getResultList();
+                .setFirstResult(page.getPageNumber() * 10).setMaxResults(10)
+                .getResultList());
     }
 
     @Override

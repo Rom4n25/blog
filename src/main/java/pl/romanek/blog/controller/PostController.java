@@ -40,9 +40,10 @@ public class PostController {
         return ResponseEntity.ok(postResponseMapper.toPostsResponseDto(posts));
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<PostResponseDto>> getAllPostByUserId(@PathVariable("id") Integer id) {
-        List<Post> posts = new ArrayList<>(postService.findAllPostsByUserId(id));
+    @GetMapping("/user/{id}/{page}")
+    public ResponseEntity<List<PostResponseDto>> getAllPostByUserId(@PathVariable("id") Integer id,
+            @PathVariable("page") Integer page) {
+        List<Post> posts = new ArrayList<>(postService.findAllPostsByUserId(id, page).toList());
         if (posts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

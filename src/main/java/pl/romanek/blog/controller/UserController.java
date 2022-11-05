@@ -50,6 +50,12 @@ public class UserController {
         return ResponseEntity.of(Optional.ofNullable(userResponseMapper.toUserResponseDto(user.orElse(null))));
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserResponseDto> getUserByUsername(@PathVariable("username") String username) {
+        Optional<User> user = userService.findUserByUsername(username);
+        return ResponseEntity.of(Optional.ofNullable(userResponseMapper.toUserResponseDto(user.orElse(null))));
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Void> addUser(@Valid @RequestBody UserRequestDto userDto) {
         userService.addUser(userRequestMapper.toUserEntity(userDto));

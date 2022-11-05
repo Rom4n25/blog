@@ -1,6 +1,5 @@
 package pl.romanek.blog.repository.springdatajpa;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,7 @@ public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, 
     // @Query(value = "SELECT p FROM Post p WHERE p.user.id = :id")
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })
-    List<Post> findAllByUserId(Integer id);
+    Page<Post> findAllByUserId(Integer id, Pageable pageable);
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })
