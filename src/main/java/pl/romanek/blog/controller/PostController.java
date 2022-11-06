@@ -57,11 +57,11 @@ public class PostController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addPost(@RequestBody PostRequestDto postRequestDto,
+    public ResponseEntity<PostResponseDto> addPost(@RequestBody PostRequestDto postRequestDto,
             Authentication authentication) {
         Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
-        postService.addPost(postRequestMapper.toPostEntity(postRequestDto),
+        Post post = postService.addPost(postRequestMapper.toPostEntity(postRequestDto),
                 userId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.ok(postResponseMapper.toPostResponseDto(post));
     }
 }

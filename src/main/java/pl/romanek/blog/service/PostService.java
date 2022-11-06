@@ -24,13 +24,15 @@ public class PostService {
         return postRepository.findAllByOrderByCreatedDesc(PageRequest.of(page, 10));
     }
 
-    public void addPost(Post post, Integer id) {
+    public Post addPost(Post post, Integer id) {
+        Post savedPost = null;
         Optional<User> user = userService.findUserById(id);
         if (user.isPresent()) {
             post.setUser(user.get());
             post.setCreated(LocalDateTime.now());
-            postRepository.save(post);
+            savedPost = postRepository.save(post);
         }
+        return savedPost;
     }
 
     @Transactional(readOnly = true)
