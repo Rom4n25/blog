@@ -92,7 +92,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Void> logIn() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
