@@ -13,5 +13,6 @@ public interface PostRequestMapper {
     @Mapping(target = "comment", ignore = true)
     @Mapping(target = "created", ignore = true)
     @Mapping(target = "lastModified", ignore = true)
+    @Mapping(target = "img", ignore = true)
     Post toPostEntity(PostRequestDto postRequestDto);
 }

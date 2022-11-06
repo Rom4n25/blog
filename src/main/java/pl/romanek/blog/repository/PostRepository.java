@@ -11,7 +11,7 @@ public interface PostRepository {
 
     Page<Post> findAllByOrderByCreatedDesc(Pageable pageable);
 
-    Page<Post> findAllByUserId(Integer id, Pageable pageable);
+    Page<Post> findAllByUserIdOrderByCreatedDesc(Integer id, Pageable pageable);
 
     Optional<Post> findById(Integer id);
 }

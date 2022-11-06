@@ -18,7 +18,7 @@ public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, 
     // @Query(value = "SELECT p FROM Post p WHERE p.user.id = :id")
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })
-    Page<Post> findAllByUserId(Integer id, Pageable pageable);
+    Page<Post> findAllByUserIdOrderByCreatedDesc(Integer id, Pageable pageable);
 
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment" })

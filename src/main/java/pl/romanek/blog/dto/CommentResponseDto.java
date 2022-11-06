@@ -1,7 +1,6 @@
 package pl.romanek.blog.dto;
 
 import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,4 +12,5 @@ public class CommentResponseDto {
     private LocalDateTime created;
     private LocalDateTime lastModified;
     private UserResponseDto user;
+    private byte[] img;
 }

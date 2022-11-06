@@ -1,9 +1,11 @@
 package pl.romanek.blog.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import pl.romanek.blog.dto.PostRequestDto;
 import pl.romanek.blog.dto.PostResponseDto;
@@ -34,6 +38,13 @@ public class PostController {
     @GetMapping("/all/{page}")
     public ResponseEntity<List<PostResponseDto>> getAllPosts(@PathVariable("page") Integer page) {
         List<Post> posts = new ArrayList<>(postService.findAllPosts(page).toList());
+        try {
+            posts.stream().flatMap(item -> item.getComment().stream().map(p -> p.getImg().toString()))
+                    .forEach(p -> System.out.println(p));
+        } catch (Exception e) {
+            System.out.println("NULL");
+        }
+
         if (posts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -63,5 +74,20 @@ public class PostController {
         Post post = postService.addPost(postRequestMapper.toPostEntity(postRequestDto),
                 userId);
         return ResponseEntity.ok(postResponseMapper.toPostResponseDto(post));
+    }
+
+    @PostMapping(path = "/img/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<PostResponseDto> addPostImg(@RequestParam("file") MultipartFile file,
+            @RequestParam("id") Integer id,
+            Authentication authentication) throws IOException {
+
+        Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
+        Optional<Post> post = postService.findPostById(id);
+
+        if (post.isPresent()) {
+            post.get().setImg(file.getBytes());
+            postService.addPost(post.get(), userId);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

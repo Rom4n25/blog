@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import pl.romanek.blog.entity.Role;
 import pl.romanek.blog.entity.User;
-import pl.romanek.blog.repository.springdatajpa.SpringDataUserRepository;
 import pl.romanek.blog.security.RoleName;
 
 @DataJpaTest
@@ -17,7 +16,7 @@ import pl.romanek.blog.security.RoleName;
 public class UserRepositoryIntegrationTests {
 
     @Autowired
-    SpringDataUserRepository springDataUserRepository;
+    UserRepository userRepository;
 
     @BeforeEach
     public void addUser() {
@@ -29,22 +28,25 @@ public class UserRepositoryIntegrationTests {
                 .role(new Role(RoleName.USER))
                 .build();
 
-        springDataUserRepository.save(user);
+        userRepository.save(user);
     }
 
     @Test
     public void shouldFindUserByUsername() {
-        assertEquals(1, springDataUserRepository.findByUsername("Bill").get().getId());
+        assertEquals(1,
+                userRepository.findByUsername("Bill").get().getId());
     }
 
     @Test
     public void shouldGetEmptyOptionalWhenUserNotFoundByUsername() {
-        assertEquals(Optional.empty(), springDataUserRepository.findByUsername("Steve"));
+        assertEquals(Optional.empty(),
+                userRepository.findByUsername("Steve"));
     }
 
     @Test
     public void shouldDeleteUserByUsername() {
-        springDataUserRepository.deleteByUsername("Bill");
-        assertEquals(Optional.empty(), springDataUserRepository.findByUsername("Bill"));
+        userRepository.deleteByUsername("Bill");
+        assertEquals(Optional.empty(),
+                userRepository.findByUsername("Bill"));
     }
 }

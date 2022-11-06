@@ -24,13 +24,13 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    public void addComment(Comment comment, Integer userId, Integer postId) {
+    public Comment addComment(Comment comment, Integer userId, Integer postId) {
         User user = userService.findUserById(userId).get();
         Post post = postService.findPostById(postId).get();
         comment.setPost(post);
         comment.setUser(user);
         comment.setCreated(LocalDateTime.now());
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
     }
 
     @Transactional(readOnly = true)

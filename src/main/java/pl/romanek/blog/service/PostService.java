@@ -37,7 +37,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<Post> findAllPostsByUserId(Integer id, Integer page) {
-        return postRepository.findAllByUserId(id, PageRequest.of(page, 10));
+        return postRepository.findAllByUserIdOrderByCreatedDesc(id, PageRequest.of(page, 10));
     }
 
     @Transactional(readOnly = true)

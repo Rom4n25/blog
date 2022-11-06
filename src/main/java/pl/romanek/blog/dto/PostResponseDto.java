@@ -15,4 +15,5 @@ public class PostResponseDto {
     private LocalDateTime lastModified;
     private UserResponseDto user;
     private Set<CommentResponseDto> comment;
+    private byte[] img;
 }
