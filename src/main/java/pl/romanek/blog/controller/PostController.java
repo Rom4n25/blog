@@ -1,6 +1,5 @@
 package pl.romanek.blog.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,11 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import pl.romanek.blog.dto.PostRequestDto;
 import pl.romanek.blog.dto.PostResponseDto;
@@ -67,27 +63,13 @@ public class PostController {
         return ResponseEntity.of(Optional.ofNullable(postResponseMapper.toPostResponseDto(post.get())));
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<PostResponseDto> addPost(@RequestBody PostRequestDto postRequestDto,
+    @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<PostResponseDto> addPost(PostRequestDto postRequestDto,
             Authentication authentication) {
+
         Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
         Post post = postService.addPost(postRequestMapper.toPostEntity(postRequestDto),
                 userId);
         return ResponseEntity.ok(postResponseMapper.toPostResponseDto(post));
-    }
-
-    @PostMapping(path = "/img/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<PostResponseDto> addPostImg(@RequestParam("file") MultipartFile file,
-            @RequestParam("id") Integer id,
-            Authentication authentication) throws IOException {
-
-        Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
-        Optional<Post> post = postService.findPostById(id);
-
-        if (post.isPresent()) {
-            post.get().setImg(file.getBytes());
-            postService.addPost(post.get(), userId);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
