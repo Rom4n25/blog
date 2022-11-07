@@ -34,12 +34,6 @@ public class PostController {
     @GetMapping("/all/{page}")
     public ResponseEntity<List<PostResponseDto>> getAllPosts(@PathVariable("page") Integer page) {
         List<Post> posts = new ArrayList<>(postService.findAllPosts(page).toList());
-        try {
-            posts.stream().flatMap(item -> item.getComment().stream().map(p -> p.getImg().toString()))
-                    .forEach(p -> System.out.println(p));
-        } catch (Exception e) {
-            System.out.println("NULL");
-        }
 
         if (posts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

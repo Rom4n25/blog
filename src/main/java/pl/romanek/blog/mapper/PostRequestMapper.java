@@ -20,6 +20,7 @@ public interface PostRequestMapper {
 
     @Named("img")
     default byte[] img(PostRequestDto postRequestDto) throws IOException {
-        return postRequestDto.getFile().getBytes();
+        return postRequestDto.getFile() == null ? null : postRequestDto.getFile().getBytes();
+
     }
 }

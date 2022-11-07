@@ -20,6 +20,6 @@ public interface CommentRequestMapper {
 
     @Named("img")
     default byte[] img(CommentRequestDto commentRequestDto) throws IOException {
-        return commentRequestDto.getFile().getBytes();
+        return commentRequestDto.getFile() == null ? null : commentRequestDto.getFile().getBytes();
     }
 }
