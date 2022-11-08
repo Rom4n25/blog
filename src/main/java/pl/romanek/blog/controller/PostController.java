@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -57,7 +56,7 @@ public class PostController {
         return ResponseEntity.of(Optional.ofNullable(postResponseMapper.toPostResponseDto(post.get())));
     }
 
-    @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping("/add")
     public ResponseEntity<PostResponseDto> addPost(PostRequestDto postRequestDto,
             Authentication authentication) {
 

@@ -3,7 +3,6 @@ package pl.romanek.blog.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,7 +47,7 @@ public class CommentController {
         return ResponseEntity.ok(commentResponseMapper.toCommentsResponseDto(comments));
     }
 
-    @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping("/add")
     public ResponseEntity<CommentResponseDto> addComment(CommentRequestDto commentDto,
             Authentication authentication) {
         Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
