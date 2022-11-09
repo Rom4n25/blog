@@ -65,4 +65,15 @@ public class PostController {
                 userId);
         return ResponseEntity.ok(postResponseMapper.toPostResponseDto(post));
     }
+
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<Void> editPostById(@PathVariable("id") Integer id, PostRequestDto postRequestDto,
+            Authentication authentication) {
+
+        Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
+
+        postService.editPostById(postRequestMapper.toPostEntity(postRequestDto), id, userId);
+
+        return ResponseEntity.ok().build();
+    }
 }

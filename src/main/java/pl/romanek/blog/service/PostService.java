@@ -35,6 +35,19 @@ public class PostService {
         return savedPost;
     }
 
+    public void editPostById(Post editedPost, Integer id, Integer userId) {
+        Post post = findPostById(id).orElseThrow();
+
+        if (post.getUser().getId() == userId) {
+            post.setText(editedPost.getText());
+
+            if (editedPost.getImg() != null) {
+                post.setImg(editedPost.getImg());
+            }
+            post.setLastModified(LocalDateTime.now());
+        }
+    }
+
     @Transactional(readOnly = true)
     public Page<Post> findAllPostsByUserId(Integer id, Integer page) {
         return postRepository.findAllByUserIdOrderByCreatedDesc(id, PageRequest.of(page, 10));
