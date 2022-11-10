@@ -1,6 +1,8 @@
 package pl.romanek.blog.repository.springdatajpa;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +20,8 @@ public interface SpringDataCommentRepository extends JpaRepository<Comment, Inte
     @Override
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "post" })
     List<Comment> findAll();
+
+    @Override
+    @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "post" })
+    Optional<Comment> findById(Integer id);
 }

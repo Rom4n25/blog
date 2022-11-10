@@ -1,6 +1,8 @@
 package pl.romanek.blog.repository.jpa;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.context.annotation.Profile;
@@ -37,5 +39,11 @@ public class JpaCommentRepository implements CommentRepository {
     public Comment save(Comment comment) {
         em.persist(comment);
         return comment;
+    }
+
+    @Override
+    public Optional<Comment> findById(Integer id) {
+        Comment comment = em.find(Comment.class, id);
+        return Optional.ofNullable(comment);
     }
 }

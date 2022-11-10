@@ -55,4 +55,15 @@ public class CommentController {
                 commentDto.getPostId());
         return ResponseEntity.ok(commentResponseMapper.toCommentResponseDto(comment));
     }
+
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<Void> editCommentById(@PathVariable("id") Integer id, CommentRequestDto postRequestDto,
+            Authentication authentication) {
+
+        Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
+
+        commentService.editCommentById(commentRequestMapper.toCommentEntity(postRequestDto), id, userId);
+
+        return ResponseEntity.ok().build();
+    }
 }

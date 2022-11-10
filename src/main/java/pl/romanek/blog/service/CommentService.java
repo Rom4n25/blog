@@ -2,6 +2,8 @@ package pl.romanek.blog.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -31,6 +33,24 @@ public class CommentService {
         comment.setUser(user);
         comment.setCreated(LocalDateTime.now());
         return commentRepository.save(comment);
+    }
+
+    public void editCommentById(Comment editedComment, Integer id, Integer userId) {
+        Comment comment = findCommentById(id).orElseThrow();
+
+        if (comment.getUser().getId() == userId) {
+            comment.setText(editedComment.getText());
+
+            if (editedComment.getImg() != null) {
+                comment.setImg(editedComment.getImg());
+            }
+            comment.setLastModified(LocalDateTime.now());
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Comment> findCommentById(Integer id) {
+        return commentRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
