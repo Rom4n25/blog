@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.Comment;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.exception.UnauthorizedOperationException;
 import pl.romanek.blog.repository.CommentRepository;
 
 @Service
@@ -38,15 +39,20 @@ public class CommentService {
     public void editCommentById(Comment editedComment, Integer id, Integer userId) {
         Comment comment = findCommentById(id).orElseThrow();
 
-        if (comment.getUser().getId() == userId) {
-            comment.setText(editedComment.getText());
+        if (comment.getUser().getId() != userId)
+            throw new UnauthorizedOperationException();
 
-            if (editedComment.getImg() != null && editedComment.getImg().length != 0) {
-                comment.setImg(editedComment.getImg());
-            } else if (editedComment.getImg() != null && editedComment.getImg().length == 0) {
-                comment.setImg(null);
-            }
-            comment.setLastModified(LocalDateTime.now());
+        comment.setLastModified(LocalDateTime.now());
+        comment.setText(editedComment.getText());
+
+        byte[] image = editedComment.getImg();
+        Optional<Boolean> imageHasContent = Optional
+                .ofNullable(Boolean.valueOf(image.length > 0));
+
+        if (imageHasContent.get()) {
+            comment.setImg(image);
+        } else {
+            comment.setImg(null);
         }
     }
 

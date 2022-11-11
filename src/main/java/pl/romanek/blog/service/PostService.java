@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.exception.UnauthorizedOperationException;
 import pl.romanek.blog.repository.PostRepository;
 
 @Service
@@ -38,18 +39,21 @@ public class PostService {
     public void editPostById(Post editedPost, Integer id, Integer userId) {
         Post post = findPostById(id).orElseThrow();
 
-        if (post.getUser().getId() == userId) {
+        if (post.getUser().getId() != userId)
+            throw new UnauthorizedOperationException();
 
-            post.setLastModified(LocalDateTime.now());
-            post.setText(editedPost.getText());
+        post.setLastModified(LocalDateTime.now());
+        post.setText(editedPost.getText());
 
-            if (editedPost.getImg() != null && editedPost.getImg().length != 0) {
-                post.setImg(editedPost.getImg());
-            } else if (editedPost.getImg() != null && editedPost.getImg().length == 0) {
-                post.setImg(null);
-            }
+        byte[] image = editedPost.getImg();
+        Optional<Boolean> imageHasContent = Optional.ofNullable(Boolean.valueOf(image.length > 0));
+        System.out.println(Boolean.valueOf(image.length > 0));
+        if (imageHasContent.get()) {
+            post.setImg(image);
+        } else {
+            post.setImg(null);
         }
-    }
+    };
 
     @Transactional(readOnly = true)
     public Page<Post> findAllPostsByUserId(Integer id, Integer page) {
