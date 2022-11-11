@@ -41,8 +41,10 @@ public class CommentService {
         if (comment.getUser().getId() == userId) {
             comment.setText(editedComment.getText());
 
-            if (editedComment.getImg() != null) {
+            if (editedComment.getImg() != null && editedComment.getImg().length != 0) {
                 comment.setImg(editedComment.getImg());
+            } else if (editedComment.getImg() != null && editedComment.getImg().length == 0) {
+                comment.setImg(null);
             }
             comment.setLastModified(LocalDateTime.now());
         }

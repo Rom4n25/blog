@@ -39,12 +39,15 @@ public class PostService {
         Post post = findPostById(id).orElseThrow();
 
         if (post.getUser().getId() == userId) {
+
+            post.setLastModified(LocalDateTime.now());
             post.setText(editedPost.getText());
 
-            if (editedPost.getImg() != null) {
+            if (editedPost.getImg() != null && editedPost.getImg().length != 0) {
                 post.setImg(editedPost.getImg());
+            } else if (editedPost.getImg() != null && editedPost.getImg().length == 0) {
+                post.setImg(null);
             }
-            post.setLastModified(LocalDateTime.now());
         }
     }
 
