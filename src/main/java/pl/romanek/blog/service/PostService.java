@@ -46,9 +46,13 @@ public class PostService {
         post.setText(editedPost.getText());
 
         byte[] image = editedPost.getImg();
-        Optional<Boolean> imageHasContent = Optional.ofNullable(Boolean.valueOf(image.length > 0));
-        System.out.println(Boolean.valueOf(image.length > 0));
-        if (imageHasContent.get()) {
+        Boolean imageHasContent = false;
+
+        if (image != null) {
+            imageHasContent = image.length > 0;
+        }
+
+        if (imageHasContent) {
             post.setImg(image);
         } else {
             post.setImg(null);

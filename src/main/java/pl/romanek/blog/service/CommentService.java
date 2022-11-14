@@ -3,7 +3,6 @@ package pl.romanek.blog.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -46,10 +45,13 @@ public class CommentService {
         comment.setText(editedComment.getText());
 
         byte[] image = editedComment.getImg();
-        Optional<Boolean> imageHasContent = Optional
-                .ofNullable(Boolean.valueOf(image.length > 0));
+        Boolean imageHasContent = false;
 
-        if (imageHasContent.get()) {
+        if (image != null) {
+            imageHasContent = image.length > 0;
+        }
+
+        if (imageHasContent) {
             comment.setImg(image);
         } else {
             comment.setImg(null);
