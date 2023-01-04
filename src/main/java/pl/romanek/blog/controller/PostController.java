@@ -87,4 +87,13 @@ public class PostController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{id}/point/add")
+    public ResponseEntity<Void> addPoint(@PathVariable("id") Integer id, Authentication authentication) {
+
+        Integer userId = Integer.parseInt((authentication.getPrincipal().toString()));
+        postService.addPoint(id, userId);
+
+        return ResponseEntity.ok().build();
+    }
 }

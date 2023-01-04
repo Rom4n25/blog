@@ -7,8 +7,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
+import pl.romanek.blog.entity.PointPost;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.exception.PointAlreadyAddedException;
 import pl.romanek.blog.exception.UnauthorizedOperationException;
 import pl.romanek.blog.repository.PostRepository;
 
@@ -78,5 +80,20 @@ public class PostService {
         }
 
         postRepository.deleteById(id);
+    }
+
+    public void addPoint(Integer id, Integer userId) {
+
+        Post post = postRepository.findById(id).orElseThrow();
+        User user = userService.findUserById(userId).orElseThrow();
+        PointPost point = new PointPost();
+        point.setPost(post);
+        point.setUser(user);
+
+        if (!post.getPointPost().stream().map(p -> p.getUser().getId()).anyMatch(s -> s == userId)) {
+            post.getPointPost().add(point);
+        } else {
+            throw new PointAlreadyAddedException();
+        }
     }
 }

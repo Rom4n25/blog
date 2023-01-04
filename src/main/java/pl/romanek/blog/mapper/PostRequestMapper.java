@@ -12,6 +12,7 @@ public interface PostRequestMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "pointPost", ignore = true)
     @Mapping(target = "comment", ignore = true)
     @Mapping(target = "created", ignore = true)
     @Mapping(target = "lastModified", ignore = true)

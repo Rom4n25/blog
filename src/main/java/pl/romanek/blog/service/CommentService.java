@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.Comment;
+import pl.romanek.blog.entity.PointComment;
 import pl.romanek.blog.entity.Post;
 import pl.romanek.blog.entity.User;
+import pl.romanek.blog.exception.PointAlreadyAddedException;
 import pl.romanek.blog.exception.UnauthorizedOperationException;
 import pl.romanek.blog.repository.CommentRepository;
 
@@ -74,5 +76,21 @@ public class CommentService {
             throw new UnauthorizedOperationException();
         }
         commentRepository.deleteById(id);
+    }
+
+    public void addPoint(Integer id, Integer userId) {
+
+        Comment comment = commentRepository.findById(id).orElseThrow();
+        User user = userService.findUserById(userId).orElseThrow();
+        PointComment point = new PointComment();
+        point.setComment(comment);
+        point.setUser(user);
+
+        if (!comment.getPointComment().stream().map(p -> p.getUser().getId()).anyMatch(s -> s == userId)) {
+
+            comment.getPointComment().add(point);
+        } else {
+            throw new PointAlreadyAddedException();
+        }
     }
 }

@@ -2,7 +2,6 @@ package pl.romanek.blog.entity;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +26,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String text;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<PointPost> pointPost;
 
     private LocalDateTime created;
 
