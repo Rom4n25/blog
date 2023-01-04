@@ -14,4 +14,6 @@ public interface CommentRepository {
     Optional<Comment> findById(Integer id);
 
     Comment save(Comment comment);
+
+    void deleteById(Integer id);
 }

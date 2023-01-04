@@ -68,4 +68,15 @@ public class PostService {
     public Optional<Post> findPostById(Integer id) {
         return postRepository.findById(id);
     }
+
+    public void deletePostById(Integer id, Integer userId) {
+
+        Post post = postRepository.findById(id).orElseThrow();
+
+        if (post.getUser().getId() != userId) {
+            throw new UnauthorizedOperationException();
+        }
+
+        postRepository.deleteById(id);
+    }
 }

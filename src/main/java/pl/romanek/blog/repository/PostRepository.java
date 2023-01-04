@@ -14,4 +14,6 @@ public interface PostRepository {
     Page<Post> findAllByUserIdOrderByCreatedDesc(Integer id, Pageable pageable);
 
     Optional<Post> findById(Integer id);
+
+    void deleteById(Integer id);
 }

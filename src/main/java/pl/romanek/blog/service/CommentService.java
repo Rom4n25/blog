@@ -67,4 +67,12 @@ public class CommentService {
     public List<Comment> findAllCommentsInPost(Integer postId) {
         return commentRepository.findAllByPostIdOrderByCreatedAsc(postId);
     }
+
+    public void deleteById(Integer id, Integer userId) {
+
+        if (commentRepository.findById(id).get().getUser().getId() != userId) {
+            throw new UnauthorizedOperationException();
+        }
+        commentRepository.deleteById(id);
+    }
 }

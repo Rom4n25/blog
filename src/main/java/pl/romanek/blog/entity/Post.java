@@ -2,6 +2,8 @@ package pl.romanek.blog.entity;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +38,7 @@ public class Post {
     private User user;
 
     @OrderBy("created")
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Comment> comment;
 
     @Lob
