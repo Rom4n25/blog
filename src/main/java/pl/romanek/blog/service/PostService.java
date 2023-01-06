@@ -1,6 +1,7 @@
 package pl.romanek.blog.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -95,5 +96,9 @@ public class PostService {
         } else {
             throw new PointAlreadyAddedException();
         }
+    }
+
+    public List<Post> findTopPosts() {
+        return postRepository.findTop10();
     }
 }
