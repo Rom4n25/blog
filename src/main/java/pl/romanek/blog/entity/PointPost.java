@@ -15,6 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "points_post")
+
 public class PointPost {
 
     @Id
