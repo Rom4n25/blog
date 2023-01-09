@@ -25,7 +25,7 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findByUsername(String username) {
-        Query query = em.createQuery("SELECT user FROM User user WHERE user.username=:username");
+        Query query = em.createQuery("SELECT user FROM User user JOIN FETCH user.role WHERE user.username=:username");
         query.setParameter("username", username);
         User user = (User) query.getSingleResult();
         return Optional.ofNullable(user);
@@ -34,7 +34,7 @@ public class JpaUserRepository implements UserRepository {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> findAll() {
-        return em.createQuery("SELECT user FROM User user").getResultList();
+        return em.createQuery("SELECT user FROM User user JOIN FETCH user.role").getResultList();
     }
 
     @Override

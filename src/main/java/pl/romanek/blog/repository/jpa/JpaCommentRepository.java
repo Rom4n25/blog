@@ -21,8 +21,8 @@ public class JpaCommentRepository implements CommentRepository {
     @Override
     public List<Comment> findAllByPostIdOrderByCreatedAsc(Integer id) {
         return em.createQuery(
-                "SELECT comment FROM Comment comment JOIN FETCH comment.user user JOIN FETCH comment.post post WHERE comment.post.id="
-                        + id + "ORDER BY comment.created ASC")
+                "SELECT comment FROM Comment comment JOIN FETCH comment.user user JOIN FETCH user.role role LEFT JOIN FETCH comment.post post LEFT JOIN FETCH comment.pointComment pointComment WHERE comment.post.id="
+                        + id + " ORDER BY comment.created ASC")
                 .getResultList();
     }
 
@@ -31,7 +31,7 @@ public class JpaCommentRepository implements CommentRepository {
     public List<Comment> findAll() {
         return em
                 .createQuery(
-                        "SELECT comment FROM Comment comment JOIN FETCH comment.user user JOIN FETCH comment.post post")
+                        "SELECT comment FROM Comment comment JOIN FETCH comment.user user JOIN FETCH user.role role JOIN FETCH comment.post post JOIN FETCH comment.pointComment pointComment")
                 .getResultList();
     }
 

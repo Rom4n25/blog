@@ -1,8 +1,10 @@
 package pl.romanek.blog.repository.jpa;
 
 import java.util.Optional;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,9 +29,12 @@ public class JpaPostRepository implements PostRepository {
     @SuppressWarnings("unchecked")
     @Override
     public Page<Post> findAllByOrderByCreatedDesc(Pageable page) {
-        return new PageImpl<>(em
-                .createQuery(
-                        "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment ORDER BY post.created DESC")
+        Query query = em.createQuery("SELECT DISTINCT post FROM Post post ORDER BY post.created DESC");
+        EntityGraph<Post> eg = em.createEntityGraph(Post.class);
+        eg.addAttributeNodes("user", "pointPost");
+        eg.addSubgraph("comment").addAttributeNodes("pointComment");
+        query.setHint("javax.persistence.fetchgraph", eg);
+        return new PageImpl<>(query
                 .setFirstResult(page.getPageNumber() * 10).setMaxResults(10)
                 .getResultList());
     }
@@ -37,16 +42,30 @@ public class JpaPostRepository implements PostRepository {
     @SuppressWarnings("unchecked")
     @Override
     public Page<Post> findAllByUserIdOrderByCreatedDesc(Integer id, Pageable page) {
-        return new PageImpl<>(em.createQuery(
-                "SELECT DISTINCT post FROM Post post LEFT JOIN FETCH post.user user LEFT JOIN FETCH post.comment comment WHERE post.user.id="
-                        + id + "ORDER BY post.created DESC")
+        Query query = em
+                .createQuery("SELECT DISTINCT post FROM Post post WHERE post.user.id="
+                        + id + "ORDER BY post.created DESC");
+        EntityGraph<Post> eg = em.createEntityGraph(Post.class);
+        eg.addAttributeNodes("user");
+        eg.addSubgraph("comment").addAttributeNodes("pointComment");
+        eg.addSubgraph("pointPost").addAttributeNodes("user");
+        query.setHint("javax.persistence.fetchgraph", eg);
+
+        return new PageImpl<>(query
                 .setFirstResult(page.getPageNumber() * 10).setMaxResults(10)
                 .getResultList());
     }
 
     @Override
     public Optional<Post> findById(Integer id) {
-        Post post = em.find(Post.class, id);
+        EntityGraph<Post> eg = em.createEntityGraph(Post.class);
+        eg.addAttributeNodes("user", "pointPost");
+        eg.addSubgraph("comment").addAttributeNodes("user", "pointComment");
+
+        Query query = em.createQuery("SELECT DISTINCT post FROM Post post WHERE post.id=" + id);
+        query.setHint("javax.persistence.fetchgraph", eg);
+
+        Post post = (Post) query.getSingleResult();
         return Optional.ofNullable(post);
     }
 
@@ -59,8 +78,14 @@ public class JpaPostRepository implements PostRepository {
     @SuppressWarnings("unchecked")
     @Override
     public Page<Post> findTop(Pageable pageable) {
-        return new PageImpl<>(em.createNativeQuery(
-                "SELECT post.id, post.text, post.user_id, post.created, post.last_modified, post.img FROM post INNER JOIN points_post ON post.id = points_post.post_id GROUP BY points_post.post_id ORDER BY COUNT(points_post.post_id) DESC LIMIT 10")
+        Query query = em
+                .createQuery("SELECT DISTINCT post FROM Post post JOIN post.pointPost ORDER BY post.points DESC");
+        EntityGraph<Post> eg = em.createEntityGraph(Post.class);
+        eg.addAttributeNodes("user");
+        eg.addSubgraph("comment").addAttributeNodes("pointComment");
+        eg.addSubgraph("pointPost").addAttributeNodes("user");
+        query.setHint("javax.persistence.fetchgraph", eg);
+        return new PageImpl<>(query
                 .setMaxResults(10)
                 .getResultList());
     }
