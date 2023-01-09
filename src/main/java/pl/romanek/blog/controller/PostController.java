@@ -72,7 +72,6 @@ public class PostController {
             Authentication authentication) {
 
         Integer userId = Integer.parseInt(authentication.getPrincipal().toString());
-
         postService.editPostById(postRequestMapper.toPostEntity(postRequestDto), id, userId);
 
         return ResponseEntity.ok().build();
@@ -82,7 +81,6 @@ public class PostController {
     public ResponseEntity<Void> deletePostById(@PathVariable("id") Integer id, Authentication authentication) {
 
         Integer userId = Integer.parseInt((authentication.getPrincipal().toString()));
-
         postService.deletePostById(id, userId);
 
         return ResponseEntity.ok().build();
