@@ -19,7 +19,7 @@ public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, 
         // WHERE p.user.id = :id")@Override
 
         @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user", "comment", "comment.pointComment",
-                        "pointPost" })
+                        "comment.user", "pointPost", "pointPost.user" })
         Page<Post> findAllByUserIdOrderByCreatedDesc(Integer id, Pageable pageable);
 
         @Override
@@ -29,7 +29,7 @@ public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, 
 
         @Override
         @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user",
-                        "comment", "comment.pointComment", "pointPost" })
+                        "comment", "comment.pointComment", "comment.user", "pointPost" })
         Optional<Post> findById(Integer id);
 
         @Override
