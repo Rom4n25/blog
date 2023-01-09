@@ -89,4 +89,10 @@ public class JpaPostRepository implements PostRepository {
                 .setMaxResults(10)
                 .getResultList());
     }
+
+    @Override
+    public Page<Post> findAllByTagByOrderByCreatedDesc(String name, Pageable pageable) {
+
+        return null;
+    }
 }

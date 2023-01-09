@@ -100,4 +100,15 @@ public class PostController {
         List<Post> posts = postService.findTopPosts().toList();
         return ResponseEntity.ok(postResponseMapper.toPostsResponseDto(posts));
     }
+
+    @GetMapping("/tag/{name}/{page}")
+    public ResponseEntity<List<PostResponseDto>> getAllPosts(@PathVariable("name") String name,
+            @PathVariable("page") Integer page) {
+        List<Post> posts = new ArrayList<>(postService.findAllPostsByTag(name, page).toList());
+
+        if (posts.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(postResponseMapper.toPostsResponseDto(posts));
+    }
 }

@@ -1,7 +1,9 @@
 package pl.romanek.blog.service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import pl.romanek.blog.entity.PointPost;
 import pl.romanek.blog.entity.Post;
+import pl.romanek.blog.entity.Tag;
 import pl.romanek.blog.entity.User;
 import pl.romanek.blog.exception.PointAlreadyAddedException;
 import pl.romanek.blog.exception.UnauthorizedOperationException;
@@ -34,6 +37,16 @@ public class PostService {
         if (user.isPresent()) {
             post.setUser(user.get());
             post.setCreated(LocalDateTime.now());
+
+            Object[] list = Stream.of(post.getText().split(" ")).filter((word) -> word.startsWith("#")).toArray();
+            post.setTag(new HashSet<Tag>());
+            for (Object word : list) {
+                post.setText(post.getText().replace(word.toString(), ""));
+                Tag tag = new Tag();
+                tag.setPost(post);
+                tag.setName(word.toString().substring(1));
+                post.getTag().add(tag);
+            }
             savedPost = postRepository.save(post);
         }
         return savedPost;
@@ -101,5 +114,11 @@ public class PostService {
 
     public Page<Post> findTopPosts() {
         return postRepository.findTop(Pageable.ofSize(10));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Post> findAllPostsByTag(String name, Integer page) {
+
+        return postRepository.findAllByTagByOrderByCreatedDesc(name, PageRequest.of(page, 10));
     }
 }

@@ -31,6 +31,9 @@ public class Post {
 
     private Integer points;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<Tag> tag;
+
     private LocalDateTime created;
 
     @Column(name = "last_modified")

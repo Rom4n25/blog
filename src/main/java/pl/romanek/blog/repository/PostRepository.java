@@ -18,4 +18,6 @@ public interface PostRepository {
     void deleteById(Integer id);
 
     Page<Post> findTop(Pageable pageable);
+
+    Page<Post> findAllByTagByOrderByCreatedDesc(String name, Pageable pageable);
 }
