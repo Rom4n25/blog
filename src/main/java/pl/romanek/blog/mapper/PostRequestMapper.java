@@ -15,6 +15,8 @@ public interface PostRequestMapper {
     @Mapping(target = "pointPost", ignore = true)
     @Mapping(target = "comment", ignore = true)
     @Mapping(target = "created", ignore = true)
+    @Mapping(target = "points", ignore = true)
+    @Mapping(target = "tag", ignore = true)
     @Mapping(target = "lastModified", ignore = true)
     @Mapping(source = "postRequestDto", target = "img", qualifiedByName = "img")
     Post toPostEntity(PostRequestDto postRequestDto);
