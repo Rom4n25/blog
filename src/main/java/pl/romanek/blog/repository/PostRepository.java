@@ -1,6 +1,5 @@
 package pl.romanek.blog.repository;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,5 +17,5 @@ public interface PostRepository {
 
     void deleteById(Integer id);
 
-    List<Post> findTop10();
+    Page<Post> findTop(Pageable pageable);
 }

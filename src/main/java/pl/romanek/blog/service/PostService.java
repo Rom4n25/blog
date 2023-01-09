@@ -1,10 +1,10 @@
 package pl.romanek.blog.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -92,13 +92,14 @@ public class PostService {
         point.setUser(user);
 
         if (!post.getPointPost().stream().map(p -> p.getUser().getId()).anyMatch(s -> s == userId)) {
+            post.setPoints(post.getPointPost().size() + 1);
             post.getPointPost().add(point);
         } else {
             throw new PointAlreadyAddedException();
         }
     }
 
-    public List<Post> findTopPosts() {
-        return postRepository.findTop10();
+    public Page<Post> findTopPosts() {
+        return postRepository.findTop(Pageable.ofSize(10));
     }
 }

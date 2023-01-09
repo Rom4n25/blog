@@ -29,6 +29,8 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<PointPost> pointPost;
 
+    private Integer points;
+
     private LocalDateTime created;
 
     @Column(name = "last_modified")

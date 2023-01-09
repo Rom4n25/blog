@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
-import java.util.List;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,6 +35,6 @@ public interface SpringDataPostRepository extends JpaRepository<Post, Integer>, 
         @Override
         @EntityGraph(type = EntityGraphType.FETCH, attributePaths = { "user",
                         "comment", "comment.pointComment", "pointPost", "pointPost.user" })
-        @Query(value = "SELECT post FROM Post post INNER JOIN post.pointPost pointPost GROUP BY post ORDER BY COUNT(post) DESC")
-        List<Post> findTop10();
+        @Query(value = "SELECT DISTINCT post FROM Post post JOIN post.pointPost ORDER BY post.points DESC")
+        Page<Post> findTop(Pageable pageable);
 }

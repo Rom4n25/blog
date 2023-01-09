@@ -99,7 +99,7 @@ public class PostController {
 
     @GetMapping("/top")
     public ResponseEntity<List<PostResponseDto>> getTopPosts() {
-        List<Post> posts = postService.findTopPosts();
+        List<Post> posts = postService.findTopPosts().toList();
         return ResponseEntity.ok(postResponseMapper.toPostsResponseDto(posts));
     }
 }

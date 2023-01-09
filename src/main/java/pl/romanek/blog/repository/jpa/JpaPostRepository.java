@@ -1,6 +1,5 @@
 package pl.romanek.blog.repository.jpa;
 
-import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -59,9 +58,10 @@ public class JpaPostRepository implements PostRepository {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Post> findTop10() {
-        return em.createNativeQuery(
+    public Page<Post> findTop(Pageable pageable) {
+        return new PageImpl<>(em.createNativeQuery(
                 "SELECT post.id, post.text, post.user_id, post.created, post.last_modified, post.img FROM post INNER JOIN points_post ON post.id = points_post.post_id GROUP BY points_post.post_id ORDER BY COUNT(points_post.post_id) DESC LIMIT 10")
-                .getResultList();
+                .setMaxResults(10)
+                .getResultList());
     }
 }
