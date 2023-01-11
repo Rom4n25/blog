@@ -44,7 +44,7 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
 
                 ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken)
                                 .path("/")
-                                .sameSite("none")
+                                .sameSite("None")
                                 .httpOnly(true)
                                 .secure(true)
                                 .build();
