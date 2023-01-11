@@ -46,6 +46,7 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
                                 .path("/")
                                 .sameSite("None")
                                 .httpOnly(true)
+                                .domain(".app.localhost")
                                 .secure(true)
                                 .build();
                 response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
