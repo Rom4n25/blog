@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Value;
 @Configuration
 public class AppConfig {
 
-    @Value("${spring.datasource.password}")
+    @Value("${db.password}")
     String password;
 
     @Bean
     DataSource datasource() {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:mysql://localhost:3306/blog");
-        dataSourceBuilder.username("root");
+        dataSourceBuilder.url("jdbc:mysql://mikroblogdatabase.mysql.database.azure.com:3306/blog");
+        dataSourceBuilder.username("rom4n25");
         dataSourceBuilder.password(password);
         dataSourceBuilder.driverClassName("com.mysql.cj.jdbc.Driver");
 
