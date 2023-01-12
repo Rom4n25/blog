@@ -56,7 +56,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 ResponseCookie cookie = ResponseCookie.from("accessToken", "")
                         .maxAge(0)
                         .httpOnly(true)
-                        .domain(".azurewebsites.net")
+                        .domain("mikroblog.online")
                         .path("/")
                         .secure(true).build();
                 response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());

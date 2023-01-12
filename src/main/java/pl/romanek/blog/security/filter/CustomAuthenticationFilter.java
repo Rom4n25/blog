@@ -45,7 +45,7 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
                 ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken)
                                 .path("/")
                                 .sameSite("None")
-                                .domain(".azurewebsites.net")
+                                .domain("mikroblog.online")
                                 .httpOnly(true)
                                 .secure(true)
                                 .build();
