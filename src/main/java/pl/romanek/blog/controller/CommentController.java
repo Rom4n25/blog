@@ -20,7 +20,7 @@ import pl.romanek.blog.mapper.CommentRequestMapper;
 import pl.romanek.blog.mapper.CommentResponseMapper;
 import pl.romanek.blog.service.CommentService;
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "https://mikroblogfront.azurewebsites.net", allowCredentials = "true")
 @RestController
 @RequestMapping("/comments")
 @AllArgsConstructor

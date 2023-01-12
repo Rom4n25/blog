@@ -21,7 +21,7 @@ import pl.romanek.blog.mapper.PostResponseMapper;
 import pl.romanek.blog.mapper.PostRequestMapper;
 import pl.romanek.blog.service.PostService;
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "https://mikroblogfront.azurewebsites.net", allowCredentials = "true")
 @RestController
 @RequestMapping("/posts")
 @AllArgsConstructor
