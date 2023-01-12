@@ -46,7 +46,7 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
                                 .path("/")
                                 .sameSite("None")
                                 .httpOnly(true)
-                                .domain(".app.localhost")
+                                .domain(".azurewebsites.net")
                                 .secure(true)
                                 .build();
                 response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
