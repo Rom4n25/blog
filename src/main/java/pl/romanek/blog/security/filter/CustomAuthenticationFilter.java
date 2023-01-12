@@ -46,7 +46,6 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
                                 .path("/")
                                 .sameSite("None")
                                 .httpOnly(true)
-                                .domain("mikroblogfront.azurewebsites.net")
                                 .secure(true)
                                 .build();
                 response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
