@@ -27,7 +27,7 @@ import pl.romanek.blog.mapper.UserResponseMapper;
 import pl.romanek.blog.security.SecurityUser;
 import pl.romanek.blog.service.UserService;
 
-@CrossOrigin(origins = "https://mikroblogfront.azurewebsites.net", allowCredentials = "true")
+@CrossOrigin(origins = "https://www.mikroblog.online", allowCredentials = "true")
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
