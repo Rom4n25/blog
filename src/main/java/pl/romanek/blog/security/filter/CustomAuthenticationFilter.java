@@ -24,6 +24,9 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
         @Value("${jwt.secret}")
         String secret;
 
+        @Value("${app.domain}")
+        String domain;
+
         public CustomAuthenticationFilter(@Lazy AuthenticationManager authenticationManager) {
                 super(authenticationManager);
         }
@@ -45,7 +48,7 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
                 ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken)
                                 .path("/")
                                 .sameSite("None")
-                                .domain("mikroblog.online")
+                                .domain(domain)
                                 .httpOnly(true)
                                 .secure(true)
                                 .build();

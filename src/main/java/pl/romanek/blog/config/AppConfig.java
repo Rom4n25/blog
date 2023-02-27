@@ -12,11 +12,17 @@ public class AppConfig {
     @Value("${db.password}")
     String password;
 
+    @Value("${db.url}")
+    String url;
+
+    @Value("${db.username}")
+    String username;
+
     @Bean
     DataSource datasource() {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:mysql://mikroblogdatabase.mysql.database.azure.com:3306/blog");
-        dataSourceBuilder.username("rom4n25");
+        dataSourceBuilder.url(url);
+        dataSourceBuilder.username(username);
         dataSourceBuilder.password(password);
         dataSourceBuilder.driverClassName("com.mysql.cj.jdbc.Driver");
 
